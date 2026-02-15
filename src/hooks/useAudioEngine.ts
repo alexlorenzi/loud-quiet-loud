@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import { useAppStore } from '../store/app-store.js';
 import { getAudioEngine } from '../audio/audio-engine.js';
 import { ensureAudioContext } from '../audio/context-manager.js';
@@ -12,16 +11,10 @@ export function useAudioEngine(): {
   engine: AudioEngine;
   initAudio: () => Promise<boolean>;
 } {
-  const engineRef = useRef<AudioEngine>(getAudioEngine());
+  // getAudioEngine() returns a module-level singleton that never changes,
+  // so it's safe to call directly without a ref.
+  const engine = getAudioEngine();
   const { setAudioContextReady, setAudioLoadError } = useAppStore();
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      // Don't dispose the singleton on component unmount -
-      // it lives for the lifetime of the app
-    };
-  }, []);
 
   async function initAudio(): Promise<boolean> {
     try {
@@ -39,7 +32,7 @@ export function useAudioEngine(): {
   }
 
   return {
-    engine: engineRef.current,
+    engine,
     initAudio,
   };
 }

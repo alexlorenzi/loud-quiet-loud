@@ -39,20 +39,20 @@ const INTERVAL_TO_NAME: Record<number, IntervalName> = {
 const CHORD_INTERVALS: Record<ChordQuality, number[]> = {
   'major': [0, 4, 7],
   'minor': [0, 3, 7],
-  'diminished': [0, 3, 6],
-  'augmented': [0, 4, 8],
-  'dominant7': [0, 4, 7, 10],
-  'major7': [0, 4, 7, 11],
-  'minor7': [0, 3, 7, 10],
-  'half-diminished7': [0, 3, 6, 10],
+  'dim': [0, 3, 6],
+  'aug': [0, 4, 8],
+  '7': [0, 4, 7, 10],
+  'maj7': [0, 4, 7, 11],
+  'm7': [0, 3, 7, 10],
+  'm7b5': [0, 3, 6, 10],
   'sus2': [0, 2, 7],
   'sus4': [0, 5, 7],
   'add9': [0, 2, 4, 7],
-  'major9': [0, 2, 4, 7, 11],
-  'minor9': [0, 2, 3, 7, 10],
-  'dominant9': [0, 2, 4, 7, 10],
+  'maj9': [0, 2, 4, 7, 11],
+  'm9': [0, 2, 3, 7, 10],
+  '9': [0, 2, 4, 7, 10],
   '11': [0, 2, 4, 5, 7, 10],
-  'minor11': [0, 2, 3, 5, 7, 10]
+  'm11': [0, 2, 3, 5, 7, 10]
 };
 
 export function getChordTones(root: PitchClass, quality: ChordQuality): ChordToneInfo[] {

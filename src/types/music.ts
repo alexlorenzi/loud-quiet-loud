@@ -27,11 +27,11 @@ export type ScaleFormula = readonly number[];
 
 /** Chord quality */
 export type ChordQuality =
-  | 'major' | 'minor' | 'diminished' | 'augmented'
-  | 'dominant7' | 'major7' | 'minor7' | 'half-diminished7'
+  | 'major' | 'minor' | 'dim' | 'aug'
+  | '7' | 'maj7' | 'm7' | 'm7b5'
   | 'sus2' | 'sus4' | 'add9'
-  | 'major9' | 'minor9' | 'dominant9'
-  | '11' | 'minor11';
+  | 'maj9' | 'm9' | '9'
+  | '11' | 'm11';
 
 /** Chord function in a key */
 export type ChordFunction = 'tonic' | 'subdominant' | 'dominant';

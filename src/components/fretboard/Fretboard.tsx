@@ -126,8 +126,19 @@ export function Fretboard({
     [fretboard, noteClassifier, onNoteClick],
   );
 
-  // Track whether we have found the first visible note (gets tabindex 0)
-  let firstVisibleFound = false;
+  // Precompute the first visible note position for roving tabindex.
+  // No manual useMemo — React Compiler handles memoization automatically.
+  let firstVisibleNote: { string: number; fret: number } | null = null;
+  for (let si = 0; si < fretboard.length && !firstVisibleNote; si++) {
+    const stringPositions = fretboard[si];
+    for (let fi = 0; fi <= FRETS_TO_SHOW && fi < stringPositions.length; fi++) {
+      const noteType = noteClassifier(stringPositions[fi]);
+      if (noteType !== 'non-scale') {
+        firstVisibleNote = { string: si, fret: fi };
+        break;
+      }
+    }
+  }
 
   return (
     <div className={styles.container} ref={containerRef}>
@@ -185,8 +196,7 @@ export function Fretboard({
             const y = getStringY(stringIndex);
 
             // First visible note gets tabindex 0 (roving tabindex entry point)
-            const isFirst = !firstVisibleFound;
-            if (isFirst) firstVisibleFound = true;
+            const isFirst = firstVisibleNote?.string === stringIndex && firstVisibleNote?.fret === pos.fret;
 
             return (
               <g

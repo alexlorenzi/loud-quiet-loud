@@ -1,5 +1,5 @@
 import type { PitchClass, Mode, DiatonicChord, ChordQuality, ChordFunction, RomanNumeral, Scale } from '../types/music.js';
-import { computeScale, SCALE_FORMULAS } from './music-theory.js';
+import { computeScale } from './music-theory.js';
 import { pitchClassToName, getAccidentalPreference } from './note-utils.js';
 
 export const CHORD_FUNCTION_MAP: Record<number, ChordFunction> = {
@@ -12,8 +12,8 @@ export const CHORD_FUNCTION_MAP: Record<number, ChordFunction> = {
   7: 'dominant'
 };
 
-const MAJOR_KEY_QUALITIES: ChordQuality[] = ['major', 'minor', 'minor', 'major', 'major', 'minor', 'diminished'];
-const MINOR_KEY_QUALITIES: ChordQuality[] = ['minor', 'diminished', 'major', 'minor', 'minor', 'major', 'major'];
+const MAJOR_KEY_QUALITIES: ChordQuality[] = ['major', 'minor', 'minor', 'major', 'major', 'minor', 'dim'];
+const MINOR_KEY_QUALITIES: ChordQuality[] = ['minor', 'dim', 'major', 'minor', 'minor', 'major', 'major'];
 
 const MAJOR_KEY_ROMAN_NUMERALS: RomanNumeral[] = ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'viidim'];
 const MINOR_KEY_ROMAN_NUMERALS: RomanNumeral[] = ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'viidim'];
@@ -70,21 +70,21 @@ export function getChordVariations(chord: DiatonicChord, scale: Scale): Diatonic
   if (chord.quality === 'major') {
     variations.push({
       ...chord,
-      quality: 'major7',
+      quality: 'maj7',
       displayName: `${chord.rootName}maj7`,
       tones: [...chord.tones, seventh]
     });
 
     variations.push({
       ...chord,
-      quality: 'dominant7',
+      quality: '7',
       displayName: `${chord.rootName}7`,
       tones: [...chord.tones, seventh]
     });
 
     variations.push({
       ...chord,
-      quality: 'major9',
+      quality: 'maj9',
       displayName: `${chord.rootName}maj9`,
       tones: [...chord.tones, seventh, ninth]
     });
@@ -112,28 +112,28 @@ export function getChordVariations(chord: DiatonicChord, scale: Scale): Diatonic
   } else if (chord.quality === 'minor') {
     variations.push({
       ...chord,
-      quality: 'minor7',
+      quality: 'm7',
       displayName: `${chord.rootName}m7`,
       tones: [...chord.tones, seventh]
     });
 
     variations.push({
       ...chord,
-      quality: 'minor9',
+      quality: 'm9',
       displayName: `${chord.rootName}m9`,
       tones: [...chord.tones, seventh, ninth]
     });
 
     variations.push({
       ...chord,
-      quality: 'minor11',
+      quality: 'm11',
       displayName: `${chord.rootName}m11`,
       tones: [...chord.tones, seventh, ninth, fourth]
     });
-  } else if (chord.quality === 'diminished') {
+  } else if (chord.quality === 'dim') {
     variations.push({
       ...chord,
-      quality: 'half-diminished7',
+      quality: 'm7b5',
       displayName: `${chord.rootName}m7b5`,
       tones: [...chord.tones, seventh]
     });
@@ -148,17 +148,17 @@ function formatChordDisplayName(root: string, quality: ChordQuality): string {
       return root;
     case 'minor':
       return `${root}m`;
-    case 'diminished':
+    case 'dim':
       return `${root}dim`;
-    case 'augmented':
+    case 'aug':
       return `${root}aug`;
-    case 'dominant7':
+    case '7':
       return `${root}7`;
-    case 'major7':
+    case 'maj7':
       return `${root}maj7`;
-    case 'minor7':
+    case 'm7':
       return `${root}m7`;
-    case 'half-diminished7':
+    case 'm7b5':
       return `${root}m7b5`;
     case 'sus2':
       return `${root}sus2`;
@@ -166,15 +166,15 @@ function formatChordDisplayName(root: string, quality: ChordQuality): string {
       return `${root}sus4`;
     case 'add9':
       return `${root}add9`;
-    case 'major9':
+    case 'maj9':
       return `${root}maj9`;
-    case 'minor9':
+    case 'm9':
       return `${root}m9`;
-    case 'dominant9':
+    case '9':
       return `${root}9`;
     case '11':
       return `${root}11`;
-    case 'minor11':
+    case 'm11':
       return `${root}m11`;
     default:
       return root;

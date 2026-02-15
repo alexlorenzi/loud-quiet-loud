@@ -10,5 +10,4 @@ export interface ChordPosition {
   barres: number[];
   baseFret: number;
   midi: number[];
-  isDefault: boolean;
 }

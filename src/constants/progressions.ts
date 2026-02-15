@@ -83,18 +83,18 @@ export const PRESET_PROGRESSIONS: PresetProgression[] = [
     genre: 'Blues',
     feel: 'Classic blues form',
     pattern: [
-      { degree: 1, quality: 'dominant7', romanNumeral: 'I7' },
-      { degree: 1, quality: 'dominant7', romanNumeral: 'I7' },
-      { degree: 1, quality: 'dominant7', romanNumeral: 'I7' },
-      { degree: 1, quality: 'dominant7', romanNumeral: 'I7' },
-      { degree: 4, quality: 'dominant7', romanNumeral: 'IV7' },
-      { degree: 4, quality: 'dominant7', romanNumeral: 'IV7' },
-      { degree: 1, quality: 'dominant7', romanNumeral: 'I7' },
-      { degree: 1, quality: 'dominant7', romanNumeral: 'I7' },
-      { degree: 5, quality: 'dominant7', romanNumeral: 'V7' },
-      { degree: 4, quality: 'dominant7', romanNumeral: 'IV7' },
-      { degree: 1, quality: 'dominant7', romanNumeral: 'I7' },
-      { degree: 5, quality: 'dominant7', romanNumeral: 'V7' }
+      { degree: 1, quality: '7', romanNumeral: 'I7' },
+      { degree: 1, quality: '7', romanNumeral: 'I7' },
+      { degree: 1, quality: '7', romanNumeral: 'I7' },
+      { degree: 1, quality: '7', romanNumeral: 'I7' },
+      { degree: 4, quality: '7', romanNumeral: 'IV7' },
+      { degree: 4, quality: '7', romanNumeral: 'IV7' },
+      { degree: 1, quality: '7', romanNumeral: 'I7' },
+      { degree: 1, quality: '7', romanNumeral: 'I7' },
+      { degree: 5, quality: '7', romanNumeral: 'V7' },
+      { degree: 4, quality: '7', romanNumeral: 'IV7' },
+      { degree: 1, quality: '7', romanNumeral: 'I7' },
+      { degree: 5, quality: '7', romanNumeral: 'V7' }
     ],
     beatsPerChord: 4,
     theoryContentId: 'blues-12bar',
@@ -106,9 +106,9 @@ export const PRESET_PROGRESSIONS: PresetProgression[] = [
     genre: 'Blues',
     feel: 'Driving shuffle rhythm',
     pattern: [
-      { degree: 1, quality: 'dominant7', romanNumeral: 'I7' },
-      { degree: 4, quality: 'dominant7', romanNumeral: 'IV7' },
-      { degree: 5, quality: 'dominant7', romanNumeral: 'V7' }
+      { degree: 1, quality: '7', romanNumeral: 'I7' },
+      { degree: 4, quality: '7', romanNumeral: 'IV7' },
+      { degree: 5, quality: '7', romanNumeral: 'V7' }
     ],
     beatsPerChord: 4,
     theoryContentId: 'blues-shuffle',
@@ -120,9 +120,9 @@ export const PRESET_PROGRESSIONS: PresetProgression[] = [
     genre: 'Jazz',
     feel: 'Classic jazz cadence',
     pattern: [
-      { degree: 2, quality: 'minor7', romanNumeral: 'iim7' },
-      { degree: 5, quality: 'dominant7', romanNumeral: 'V7' },
-      { degree: 1, quality: 'major7', romanNumeral: 'Imaj7' }
+      { degree: 2, quality: 'm7', romanNumeral: 'iim7' },
+      { degree: 5, quality: '7', romanNumeral: 'V7' },
+      { degree: 1, quality: 'maj7', romanNumeral: 'Imaj7' }
     ],
     beatsPerChord: 4,
     theoryContentId: 'jazz-ii-V-I',
@@ -134,10 +134,10 @@ export const PRESET_PROGRESSIONS: PresetProgression[] = [
     genre: 'Jazz',
     feel: 'Bebop standard form',
     pattern: [
-      { degree: 1, quality: 'major7', romanNumeral: 'Imaj7' },
-      { degree: 6, quality: 'minor7', romanNumeral: 'vim7' },
-      { degree: 2, quality: 'minor7', romanNumeral: 'iim7' },
-      { degree: 5, quality: 'dominant7', romanNumeral: 'V7' }
+      { degree: 1, quality: 'maj7', romanNumeral: 'Imaj7' },
+      { degree: 6, quality: 'm7', romanNumeral: 'vim7' },
+      { degree: 2, quality: 'm7', romanNumeral: 'iim7' },
+      { degree: 5, quality: '7', romanNumeral: 'V7' }
     ],
     beatsPerChord: 2,
     theoryContentId: 'jazz-rhythm-changes',
@@ -149,9 +149,9 @@ export const PRESET_PROGRESSIONS: PresetProgression[] = [
     genre: 'Jazz',
     feel: 'Minor key jazz progression',
     pattern: [
-      { degree: 2, quality: 'half-diminished7', romanNumeral: 'iiø7' },
-      { degree: 5, quality: 'dominant7', romanNumeral: 'V7' },
-      { degree: 1, quality: 'major7', romanNumeral: 'imaj7' }
+      { degree: 2, quality: 'm7b5', romanNumeral: 'iiø7' },
+      { degree: 5, quality: '7', romanNumeral: 'V7' },
+      { degree: 1, quality: 'maj7', romanNumeral: 'imaj7' }
     ],
     beatsPerChord: 4,
     theoryContentId: 'jazz-minor-ii-V-i',

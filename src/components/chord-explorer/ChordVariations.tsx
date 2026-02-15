@@ -1,15 +1,12 @@
 import { useMemo, useState } from 'react';
-import type { DiatonicChord } from '../../types/music.js';
+import type { DiatonicChord, ChordQuality } from '../../types/music.js';
 import { useAppStore } from '../../store/app-store.js';
 import { computeScale } from '../../engine/music-theory.js';
 import { getChordVariations } from '../../engine/chord-generator.js';
 import { nameToPitchClass } from '../../engine/note-utils.js';
+import { getDefaultVoicing } from '../../data/voicing-lookup.js';
 import { ChordDiagram } from './ChordDiagram.js';
-import type { ChordVoicingData, ChordPosition } from '../../types/chords.js';
-import chordVoicingsData from '../../data/chord-voicings.json';
 import styles from './ChordVariations.module.css';
-
-const chordVoicings = chordVoicingsData as Record<string, ChordVoicingData>;
 
 interface ChordVariationsProps {
   chord: DiatonicChord;
@@ -29,19 +26,6 @@ export function ChordVariations({ chord }: ChordVariationsProps): JSX.Element {
     () => getChordVariations(chord, scale),
     [chord, scale]
   );
-
-  function getVoicingKey(rootName: string, quality: string): string {
-    return `${rootName}_${quality}`;
-  }
-
-  function getChordVoicing(rootName: string, quality: string): ChordPosition | null {
-    const key = getVoicingKey(rootName, quality);
-    const voicingData = chordVoicings[key];
-    if (!voicingData?.positions || voicingData.positions.length === 0) {
-      return null;
-    }
-    return voicingData.positions.find((p) => p.isDefault) ?? voicingData.positions[0];
-  }
 
   if (variations.length === 0) {
     return (
@@ -75,7 +59,10 @@ export function ChordVariations({ chord }: ChordVariationsProps): JSX.Element {
         <div className={styles.diagramGrid}>
           {(() => {
             const variation = variations[selectedVariationIndex];
-            const voicing = getChordVoicing(variation.rootName, variation.quality);
+            const voicing = getDefaultVoicing(
+              variation.rootName,
+              variation.quality as ChordQuality
+            );
 
             if (!voicing) {
               return (

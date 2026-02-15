@@ -24,7 +24,10 @@ export function usePresets(): UsePresetsResult {
     return repo.list();
   }, [revision]);
 
-  const isFull = useMemo(() => repo.isFull(), [revision]);
+  const isFull = useMemo(() => {
+    void revision;
+    return repo.isFull();
+  }, [revision]);
 
   const refresh = useCallback(() => {
     setRevision((r) => r + 1);

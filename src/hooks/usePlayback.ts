@@ -5,69 +5,14 @@ import { ensureAudioContext } from '../audio/context-manager.js';
 import { PRESET_PROGRESSIONS } from '../constants/progressions.js';
 import { generateDiatonicChords } from '../engine/chord-generator.js';
 import { nameToPitchClass, pitchClassToName } from '../engine/note-utils.js';
+import { getDefaultVoicing, VOICING_NOTE_NAMES } from '../data/voicing-lookup.js';
 import type { ScheduledProgression, ScheduledChord } from '../types/audio.js';
 import type { ChordQuality, NoteName } from '../types/music.js';
-import type { ChordPosition } from '../types/chords.js';
-import type { ChordVoicingData } from '../types/chords.js';
-import chordVoicingsData from '../data/chord-voicings.json';
 
-// Type the imported JSON
-const chordVoicings = chordVoicingsData as Record<string, ChordVoicingData>;
-
-/**
- * Maps the JSON note-name convention used in chord-voicings.json.
- * The JSON uses: C, C#, D, Eb, E, F, F#, G, Ab, A, Bb, B
- */
-const VOICING_NOTE_NAMES: Record<number, string> = {
-  0: 'C',
-  1: 'C#',
-  2: 'D',
-  3: 'Eb',
-  4: 'E',
-  5: 'F',
-  6: 'F#',
-  7: 'G',
-  8: 'Ab',
-  9: 'A',
-  10: 'Bb',
-  11: 'B',
-};
-
-/**
- * Map ChordQuality to the suffix used in chord-voicings.json keys.
- * Falls back to a simpler voicing when an exact match isn't available.
- */
-const QUALITY_TO_SUFFIX: Record<ChordQuality, string> = {
-  major: 'major',
-  minor: 'minor',
-  diminished: 'dim',
-  augmented: 'aug',
-  dominant7: '7',
-  major7: 'maj7',
-  minor7: 'minor',     // no m7 suffix in JSON, fall back to minor
-  'half-diminished7': 'm7b5',
-  sus2: 'sus2',
-  sus4: 'sus4',
-  add9: 'add9',
-  major9: 'maj9',
-  minor9: 'minor',     // no m9 suffix in JSON, fall back to minor
-  dominant9: '9',
-  '11': '11',
-  minor11: 'minor',    // no m11 suffix in JSON, fall back to minor
-};
-
-function getVoicingKey(pitchClass: number, quality: ChordQuality): string {
-  const noteName = VOICING_NOTE_NAMES[pitchClass] ?? 'C';
-  const suffix = QUALITY_TO_SUFFIX[quality] ?? 'major';
-  return `${noteName}_${suffix}`;
-}
-
-function findDefaultVoicing(voicingData: ChordVoicingData): ChordPosition | null {
-  if (!voicingData?.positions || voicingData.positions.length === 0) {
-    return null;
-  }
-  return voicingData.positions.find((p) => p.isDefault) ?? voicingData.positions[0];
-}
+/** Qualities that should fall back to a minor voicing when no exact match exists. */
+const MINOR_FAMILY_QUALITIES = new Set<ChordQuality>([
+  'minor', 'm7', 'm9', 'm11', 'm7b5', 'dim',
+]);
 
 /**
  * Build a ScheduledProgression from a preset progression and current key.
@@ -92,36 +37,29 @@ function buildScheduledProgression(
     // Use the quality override from the progression pattern if specified,
     // otherwise use the diatonic quality
     const quality = patternChord.quality ?? diatonic.quality;
-    const voicingKey = getVoicingKey(diatonic.root, quality);
-    const voicingData = chordVoicings[voicingKey];
+    const noteName = VOICING_NOTE_NAMES[diatonic.root] ?? 'C';
 
+    // Try exact match first
+    const pos = getDefaultVoicing(noteName, quality);
     let voicing: { frets: number[]; baseFret: number } | undefined;
 
-    if (voicingData) {
-      const pos = findDefaultVoicing(voicingData);
-      if (pos) {
-        voicing = { frets: pos.frets, baseFret: pos.baseFret };
-      }
+    if (pos) {
+      voicing = { frets: pos.frets, baseFret: pos.baseFret };
     }
 
     if (!voicing) {
       // Fallback: try the basic major/minor voicing
-      const isMinorQuality = quality === 'minor' || quality.startsWith('minor') || quality === 'half-diminished7' || quality === 'diminished';
-      const fallbackSuffix = isMinorQuality ? 'minor' : 'major';
-      const fallbackKey = `${VOICING_NOTE_NAMES[diatonic.root] ?? 'C'}_${fallbackSuffix}`;
-      const fallbackData = chordVoicings[fallbackKey];
+      const fallbackQuality: ChordQuality = MINOR_FAMILY_QUALITIES.has(quality) ? 'minor' : 'major';
+      const fallbackPos = getDefaultVoicing(noteName, fallbackQuality);
 
-      if (fallbackData) {
-        const pos = findDefaultVoicing(fallbackData);
-        if (pos) {
-          voicing = { frets: pos.frets, baseFret: pos.baseFret };
-        }
+      if (fallbackPos) {
+        voicing = { frets: fallbackPos.frets, baseFret: fallbackPos.baseFret };
       }
     }
 
     if (!voicing) {
       // Last resort: quality-appropriate open shape
-      voicing = (quality === 'minor' || quality.startsWith('minor') || quality === 'half-diminished7' || quality === 'diminished')
+      voicing = MINOR_FAMILY_QUALITIES.has(quality)
         ? { frets: [0, 2, 2, 0, 0, 0], baseFret: 1 }  // Em
         : { frets: [0, 0, 1, 2, 2, 0], baseFret: 1 };  // E
     }
@@ -140,6 +78,26 @@ function buildScheduledProgression(
     beatsPerChord: preset.beatsPerChord,
   };
 }
+
+/** Display name mapping for chord qualities. */
+const QUALITY_DISPLAY: Record<ChordQuality, string> = {
+  major: '',
+  minor: 'm',
+  dim: 'dim',
+  aug: 'aug',
+  '7': '7',
+  maj7: 'maj7',
+  m7: 'm7',
+  m7b5: 'm7b5',
+  sus2: 'sus2',
+  sus4: 'sus4',
+  add9: 'add9',
+  maj9: 'maj9',
+  m9: 'm9',
+  '9': '9',
+  '11': '11',
+  m11: 'm11',
+};
 
 /**
  * Get the display name for a chord in the current progression at a given index.
@@ -160,29 +118,11 @@ function getChordDisplayName(
 
   if (!diatonic) return patternChord.romanNumeral;
 
-  // Build display name from quality
   const quality = patternChord.quality ?? diatonic.quality;
   const noteName = pitchClassToName(diatonic.root, true);
+  const suffix = QUALITY_DISPLAY[quality] ?? '';
 
-  switch (quality) {
-    case 'major': return noteName;
-    case 'minor': return `${noteName}m`;
-    case 'diminished': return `${noteName}dim`;
-    case 'augmented': return `${noteName}aug`;
-    case 'dominant7': return `${noteName}7`;
-    case 'major7': return `${noteName}maj7`;
-    case 'minor7': return `${noteName}m7`;
-    case 'half-diminished7': return `${noteName}m7b5`;
-    case 'sus2': return `${noteName}sus2`;
-    case 'sus4': return `${noteName}sus4`;
-    case 'add9': return `${noteName}add9`;
-    case 'major9': return `${noteName}maj9`;
-    case 'minor9': return `${noteName}m9`;
-    case 'dominant9': return `${noteName}9`;
-    case '11': return `${noteName}11`;
-    case 'minor11': return `${noteName}m11`;
-    default: return noteName;
-  }
+  return `${noteName}${suffix}`;
 }
 
 /**
@@ -281,7 +221,7 @@ export function usePlayback(): {
       (chordIndex) => {
         setCurrentChordIndex(chordIndex);
       },
-      (_beat) => {
+      () => {
         // On first beat after count-in, switch to playing state
         if (useAppStore.getState().playbackState === 'count-in') {
           setPlaybackState('playing');

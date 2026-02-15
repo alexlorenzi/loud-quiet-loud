@@ -1,5 +1,5 @@
-import type { PitchClass, FretPosition, NoteWithOctave } from '../types/music.js';
-import { midiToNoteWithOctave, nameToPitchClass } from './note-utils.js';
+import type { PitchClass, FretPosition, NoteName } from '../types/music.js';
+import { midiToNoteWithOctave } from './note-utils.js';
 import { STANDARD_TUNING_MIDI, FRET_COUNT } from '../constants/tuning.js';
 
 export { STANDARD_TUNING_MIDI, FRET_COUNT };
@@ -17,7 +17,7 @@ export function getFretPosition(string: number, fret: number, preferSharps: bool
   if (!noteNameMatch) {
     throw new Error(`Invalid note with octave: ${noteWithOctave}`);
   }
-  const noteName = noteNameMatch[1] as any;
+  const noteName = noteNameMatch[1] as NoteName;
 
   return {
     string,
