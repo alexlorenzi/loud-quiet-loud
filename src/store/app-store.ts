@@ -18,6 +18,7 @@ interface AppState {
   scaleShapeVisible: boolean;
   setScaleShape: (id: string) => void;
   toggleScaleShapeOverlay: () => void;
+  selectOrDeselectShape: (id: string) => void;
 
   // Playback state
   playbackState: PlaybackState;
@@ -87,6 +88,13 @@ export const useAppStore = create<AppState>((set) => ({
   scaleShapeVisible: false,
   setScaleShape: (id) => set({ selectedScaleShapeId: id }),
   toggleScaleShapeOverlay: () => set((state) => ({ scaleShapeVisible: !state.scaleShapeVisible })),
+  selectOrDeselectShape: (id) =>
+    set((state) => {
+      if (state.selectedScaleShapeId === id && state.scaleShapeVisible) {
+        return { scaleShapeVisible: false };
+      }
+      return { selectedScaleShapeId: id, scaleShapeVisible: true };
+    }),
 
   // Playback defaults
   playbackState: 'stopped',
@@ -120,11 +128,15 @@ export const useAppStore = create<AppState>((set) => ({
   selectedChordDegree: null,
   setSelectedChordDegree: (degree) => set({ selectedChordDegree: degree }),
 
-  // High contrast (load from localStorage, safely)
+  // High contrast (load from localStorage, safely, and sync DOM on init)
   highContrast: (() => {
     if (typeof window === 'undefined') return false;
     try {
-      return localStorage.getItem('lql-high-contrast') === 'true';
+      const stored = localStorage.getItem('lql-high-contrast') === 'true';
+      if (stored) {
+        document.body.classList.add('high-contrast');
+      }
+      return stored;
     } catch {
       return false;
     }

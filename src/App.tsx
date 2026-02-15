@@ -8,6 +8,7 @@ import { nameToPitchClass, getAccidentalPreference } from './engine/note-utils.j
 import { getAudioEngine } from './audio/audio-engine.js';
 import { ensureAudioContext } from './audio/context-manager.js';
 import { PRESET_PROGRESSIONS } from './constants/progressions.js';
+import { SCALE_SHAPE_POSITIONS } from './constants/scales.js';
 import type { FretPosition } from './types/music.js';
 import type { NoteDisplayType } from './types/ui.js';
 import type { ChordToneInfo } from './engine/chord-tones.js';
@@ -21,17 +22,47 @@ import { Fretboard } from './components/fretboard/Fretboard.js';
 import { FretboardLegend } from './components/fretboard/FretboardLegend.js';
 import { ScaleSelector } from './components/scales/ScaleSelector.js';
 import { PlaybackControls } from './components/playback/PlaybackControls.js';
-import { AudioBanner } from './components/shared/AudioBanner.js';
+
 
 function App(): JSX.Element {
   const {
     keyRoot,
     mode,
     selectedProgressionId,
+    selectedScaleShapeId,
+    scaleShapeVisible,
     currentChordIndex,
     playbackState,
     audioContextReady,
+    setAudioContextReady,
   } = useAppStore();
+
+  // Auto-resume AudioContext on first user interaction (click/key/touch).
+  // Browsers allow resuming a previously-started context after any user gesture,
+  // so returning users don't need to click the dedicated banner every time.
+  useEffect(() => {
+    if (audioContextReady) return;
+
+    function tryResume() {
+      void ensureAudioContext().then((ok) => {
+        if (ok) {
+          setAudioContextReady(true);
+          cleanup();
+        }
+      });
+    }
+
+    function cleanup() {
+      window.removeEventListener('click', tryResume);
+      window.removeEventListener('keydown', tryResume);
+      window.removeEventListener('touchstart', tryResume);
+    }
+
+    window.addEventListener('click', tryResume);
+    window.addEventListener('keydown', tryResume);
+    window.addEventListener('touchstart', tryResume);
+    return cleanup;
+  }, [audioContextReady, setAudioContextReady]);
 
   // Compute scale for the current key
   const scale = useMemo(() => {
@@ -51,6 +82,34 @@ function App(): JSX.Element {
     const preferSharps = getAccidentalPreference(keyRoot, mode) === 'sharps';
     return computeFretboard(preferSharps);
   }, [keyRoot, mode]);
+
+  // Compute the set of (string, fret) positions that belong to the selected
+  // scale shape, anchored to the current key root on the low E string.
+  const scaleShapePositionSet = useMemo(() => {
+    if (!scaleShapeVisible) return null;
+
+    const shape = SCALE_SHAPE_POSITIONS.find((s) => s.id === selectedScaleShapeId);
+    if (!shape) return null;
+
+    // Find the root fret on the low E string (fretboard index 0 = low E, MIDI 40).
+    // MIDI 40 = E2. The root pitch class tells us what fret to anchor to.
+    const rootPitchClass = nameToPitchClass(keyRoot);
+    const lowEPitchClass = 4; // E = pitch class 4
+    const rootFret = (rootPitchClass - lowEPitchClass + 12) % 12;
+
+    // Scale shape patterns use guitar convention: string 5 = low E, string 0 = high E.
+    // Fretboard array uses: index 0 = low E, index 5 = high E.
+    // So fretboard index = 5 - shape.string.
+    const positions = new Set<string>();
+    for (const note of shape.pattern) {
+      const fretboardStringIndex = 5 - note.string;
+      const absoluteFret = rootFret + note.fretOffset;
+      if (absoluteFret >= 0 && absoluteFret <= 15) {
+        positions.add(`${fretboardStringIndex}:${absoluteFret}`);
+      }
+    }
+    return positions;
+  }, [scaleShapeVisible, selectedScaleShapeId, keyRoot]);
 
   // Get current chord tones for highlighting during playback
   const currentChordTones: ChordToneInfo[] | null = useMemo(() => {
@@ -78,6 +137,23 @@ function App(): JSX.Element {
 
   // Classify each note on the fretboard
   function classifyNote(pos: FretPosition): NoteDisplayType {
+    // When scale shape overlay is active, only show notes within the shape
+    if (scaleShapePositionSet) {
+      const key = `${pos.string}:${pos.fret}`;
+      if (!scaleShapePositionSet.has(key)) {
+        return 'non-scale';
+      }
+      // Within the shape, still classify against chord if playing
+      if (currentChordTones) {
+        return classifyNoteAgainstChord(pos.pitchClass, currentChordTones, scale);
+      }
+      // Show root vs scale within the shape
+      if (pos.pitchClass === scale.root) {
+        return 'root';
+      }
+      return 'scale';
+    }
+
     if (currentChordTones) {
       return classifyNoteAgainstChord(pos.pitchClass, currentChordTones, scale);
     }
@@ -102,7 +178,6 @@ function App(): JSX.Element {
 
   return (
     <>
-      {!audioContextReady && <AudioBanner />}
       <AppShell
         header={<Header keySelector={<KeySelector />} keyInfo={<KeyInfo />} />}
         leftPanel={<ChordExplorer />}
