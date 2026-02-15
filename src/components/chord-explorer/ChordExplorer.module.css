@@ -1,0 +1,60 @@
+.explorer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-4);
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.functionGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.functionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.functionIndicator {
+  width: 4px;
+  height: 20px;
+  border-radius: 2px;
+}
+
+.functionIndicator.tonic {
+  background: var(--fn-tonic);
+}
+
+.functionIndicator.subdominant {
+  background: var(--fn-subdominant);
+}
+
+.functionIndicator.dominant {
+  background: var(--fn-dominant);
+}
+
+.functionLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.functionDescription {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.chordGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: var(--space-2);
+}

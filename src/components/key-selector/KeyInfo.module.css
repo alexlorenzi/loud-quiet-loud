@@ -1,0 +1,35 @@
+.keyInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: 0 var(--space-4);
+  font-size: 14px;
+}
+
+.section {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.label {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.scaleNotes {
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  letter-spacing: 0.1em;
+}
+
+.relativeKey {
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+}
+
+.signature {
+  font-family: var(--font-mono);
+  color: var(--text-tertiary);
+  font-size: 12px;
+}

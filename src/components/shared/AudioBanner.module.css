@@ -1,0 +1,31 @@
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.banner:hover {
+  background: var(--accent-hover);
+}
+
+.banner:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: -2px;
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.text {
+  letter-spacing: 0.02em;
+}

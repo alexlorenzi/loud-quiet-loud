@@ -1,0 +1,46 @@
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.string {
+  stroke: var(--text-tertiary);
+  fill: none;
+}
+
+.fret {
+  stroke: var(--border-default);
+  stroke-width: 2;
+}
+
+.nut {
+  stroke: var(--text-primary);
+  stroke-width: 4;
+}
+
+.fretNumber {
+  fill: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.noteButton {
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.noteButton:hover {
+  transform: scale(1.1);
+}
+
+.noteButton:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}

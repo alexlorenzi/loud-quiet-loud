@@ -1,0 +1,76 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  width: 96px;
+  min-height: 80px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.card:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+}
+
+.card.selected {
+  border-color: var(--accent-primary);
+  border-width: 2px;
+}
+
+.card.nowPlaying {
+  border-color: var(--now-playing);
+  border-width: 2px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    border-color: var(--now-playing);
+  }
+  50% {
+    border-color: var(--accent-hover);
+  }
+}
+
+.functionBorder {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.functionBorder.tonic {
+  background: var(--fn-tonic);
+}
+
+.functionBorder.subdominant {
+  background: var(--fn-subdominant);
+}
+
+.functionBorder.dominant {
+  background: var(--fn-dominant);
+}
+
+.romanNumeral {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.chordName {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+}

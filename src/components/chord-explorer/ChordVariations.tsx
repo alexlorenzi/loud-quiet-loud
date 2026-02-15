@@ -1,0 +1,105 @@
+import { useMemo, useState } from 'react';
+import type { DiatonicChord } from '../../types/music.js';
+import { useAppStore } from '../../store/app-store.js';
+import { computeScale } from '../../engine/music-theory.js';
+import { getChordVariations } from '../../engine/chord-generator.js';
+import { nameToPitchClass } from '../../engine/note-utils.js';
+import { ChordDiagram } from './ChordDiagram.js';
+import type { ChordVoicingData, ChordPosition } from '../../types/chords.js';
+import chordVoicingsData from '../../data/chord-voicings.json';
+import styles from './ChordVariations.module.css';
+
+const chordVoicings = chordVoicingsData as Record<string, ChordVoicingData>;
+
+interface ChordVariationsProps {
+  chord: DiatonicChord;
+}
+
+export function ChordVariations({ chord }: ChordVariationsProps): JSX.Element {
+  const { keyRoot, mode } = useAppStore();
+  const [selectedVariationIndex, setSelectedVariationIndex] = useState<number | null>(null);
+
+  const scale = useMemo(() => {
+    const rootPitchClass = nameToPitchClass(keyRoot);
+    const scaleType = mode === 'major' ? 'major' : 'natural-minor';
+    return computeScale(rootPitchClass, scaleType);
+  }, [keyRoot, mode]);
+
+  const variations = useMemo(
+    () => getChordVariations(chord, scale),
+    [chord, scale]
+  );
+
+  function getVoicingKey(rootName: string, quality: string): string {
+    return `${rootName}_${quality}`;
+  }
+
+  function getChordVoicing(rootName: string, quality: string): ChordPosition | null {
+    const key = getVoicingKey(rootName, quality);
+    const voicingData = chordVoicings[key];
+    if (!voicingData?.positions || voicingData.positions.length === 0) {
+      return null;
+    }
+    return voicingData.positions.find((p) => p.isDefault) ?? voicingData.positions[0];
+  }
+
+  if (variations.length === 0) {
+    return (
+      <div className={styles.variations}>
+        <div className={styles.title}>No variations available</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.variations}>
+      <div className={styles.title}>Variations for {chord.displayName}</div>
+
+      <div className={styles.pills}>
+        {variations.map((variation, index) => (
+          <button
+            key={index}
+            className={`${styles.pill} ${
+              selectedVariationIndex === index ? styles.selected : ''
+            }`}
+            onClick={() =>
+              setSelectedVariationIndex(selectedVariationIndex === index ? null : index)
+            }
+          >
+            {variation.displayName}
+          </button>
+        ))}
+      </div>
+
+      {selectedVariationIndex !== null && (
+        <div className={styles.diagramGrid}>
+          {(() => {
+            const variation = variations[selectedVariationIndex];
+            const voicing = getChordVoicing(variation.rootName, variation.quality);
+
+            if (!voicing) {
+              return (
+                <div className={styles.diagramCard}>
+                  <div className={styles.diagramLabel}>No voicing data available</div>
+                </div>
+              );
+            }
+
+            return (
+              <div className={styles.diagramCard}>
+                <div className={styles.diagramLabel}>{variation.displayName}</div>
+                <ChordDiagram
+                  frets={voicing.frets}
+                  fingers={voicing.fingers}
+                  barres={voicing.barres}
+                  baseFret={voicing.baseFret}
+                  compact={false}
+                />
+              </div>
+            );
+          })()}
+        </div>
+      )}
+    </div>
+  );
+}

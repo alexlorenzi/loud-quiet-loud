@@ -1,0 +1,53 @@
+.diagram {
+  display: inline-block;
+}
+
+.svg {
+  display: block;
+}
+
+.string {
+  stroke: var(--text-tertiary);
+  stroke-width: 1;
+}
+
+.fret {
+  stroke: var(--border-default);
+  stroke-width: 1.5;
+}
+
+.nut {
+  stroke: var(--text-primary);
+  stroke-width: 3;
+}
+
+.muted,
+.open {
+  fill: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.finger {
+  fill: var(--accent-primary);
+}
+
+.fingerNumber {
+  fill: var(--bg-primary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.barre {
+  stroke: var(--accent-primary);
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+.fretNumber {
+  fill: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}

@@ -1,0 +1,140 @@
+:root {
+  /* Base Colors */
+  --bg-primary: hsl(220, 15%, 8%);
+  --bg-surface: hsl(220, 12%, 12%);
+  --bg-elevated: hsl(220, 10%, 16%);
+  --bg-hover: hsl(220, 10%, 20%);
+  --border-subtle: hsl(220, 10%, 20%);
+  --border-default: hsl(220, 10%, 28%);
+  --border-focus: hsl(30, 80%, 55%);
+
+  /* Text */
+  --text-primary: hsl(30, 10%, 90%);
+  --text-secondary: hsl(30, 5%, 60%);
+  --text-tertiary: hsl(30, 5%, 40%);
+
+  /* Note colors */
+  --note-root: hsl(14, 85%, 55%);
+  --note-chord-tone: hsl(45, 90%, 55%);
+  --note-scale: hsl(210, 60%, 55%);
+  --note-nonscale: hsl(220, 10%, 30%);
+
+  /* Function colors */
+  --fn-tonic: hsl(210, 60%, 55%);
+  --fn-subdominant: hsl(45, 80%, 55%);
+  --fn-dominant: hsl(14, 75%, 55%);
+
+  /* Genre colors */
+  --genre-pop: hsl(280, 50%, 55%);
+  --genre-blues: hsl(210, 70%, 45%);
+  --genre-jazz: hsl(30, 70%, 50%);
+  --genre-punk: hsl(350, 70%, 50%);
+  --genre-folk: hsl(140, 40%, 45%);
+
+  /* UI state */
+  --accent-primary: hsl(30, 80%, 55%);
+  --accent-hover: hsl(30, 80%, 65%);
+  --now-playing: hsl(30, 90%, 55%);
+
+  /* Typography */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-md: 0 4px 12px hsla(0, 0%, 0%, 0.4);
+  --shadow-lg: 0 8px 24px hsla(0, 0%, 0%, 0.5);
+}
+
+/* Responsive typography */
+@media (max-width: 767px) {
+  :root {
+    --text-base: 0.875rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+  }
+}
+
+/* High contrast mode */
+body.high-contrast {
+  --bg-primary: hsl(0, 0%, 0%);
+  --bg-surface: hsl(0, 0%, 5%);
+  --bg-elevated: hsl(0, 0%, 10%);
+  --bg-hover: hsl(0, 0%, 15%);
+  --text-primary: hsl(0, 0%, 100%);
+  --text-secondary: hsl(0, 0%, 80%);
+  --text-tertiary: hsl(0, 0%, 60%);
+  --note-root: hsl(0, 100%, 50%);
+  --note-chord-tone: hsl(60, 100%, 50%);
+  --note-scale: hsl(200, 100%, 60%);
+  --border-focus: hsl(60, 100%, 50%);
+  --border-subtle: hsl(0, 0%, 25%);
+  --border-default: hsl(0, 0%, 35%);
+  --accent-primary: hsl(60, 100%, 50%);
+  --accent-hover: hsl(60, 100%, 60%);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  color: inherit;
+}
+
+/* Visible focus rings for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* Remove default outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
