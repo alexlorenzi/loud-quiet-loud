@@ -9,12 +9,11 @@
   padding: var(--space-1) var(--space-3);
   height: 36px;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-default);
+  border: 2px solid var(--border-default);
   background: var(--bg-elevated);
   color: var(--text-primary);
   font-size: 13px;
   font-family: var(--font-primary);
-  transition: border-color 0.15s;
   white-space: nowrap;
 }
 
@@ -23,7 +22,7 @@
 }
 
 .trigger:focus-visible {
-  outline: 2px solid var(--border-focus);
+  outline: 3px solid var(--border-focus);
   outline-offset: 2px;
 }
 
@@ -40,7 +39,6 @@
 .chevron {
   font-size: 10px;
   color: var(--text-tertiary);
-  transition: transform 0.15s;
 }
 
 .chevron.open {
@@ -56,22 +54,10 @@
   max-height: 360px;
   overflow-y: auto;
   background: var(--bg-elevated);
-  border: 1px solid var(--border-default);
+  border: 2px solid var(--border-default);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
   padding: var(--space-2);
-  animation: dropIn 0.12s ease-out;
-}
-
-@keyframes dropIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .saveButton {
@@ -86,7 +72,6 @@
   color: var(--bg-primary);
   font-size: 13px;
   font-weight: 600;
-  transition: background 0.15s;
 }
 
 .saveButton:hover {
@@ -99,7 +84,7 @@
 }
 
 .saveButton:focus-visible {
-  outline: 2px solid var(--border-focus);
+  outline: 3px solid var(--border-focus);
   outline-offset: 2px;
 }
 
@@ -118,7 +103,6 @@
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
   text-align: left;
-  transition: background 0.1s;
 }
 
 .presetItem:hover {
@@ -126,7 +110,7 @@
 }
 
 .presetItem:focus-visible {
-  outline: 2px solid var(--border-focus);
+  outline: 3px solid var(--border-focus);
   outline-offset: -2px;
 }
 
@@ -163,7 +147,6 @@
   color: var(--text-tertiary);
   font-size: 14px;
   flex-shrink: 0;
-  transition: color 0.15s, background 0.15s;
 }
 
 .deleteButton:hover {
@@ -172,7 +155,7 @@
 }
 
 .deleteButton:focus-visible {
-  outline: 2px solid var(--border-focus);
+  outline: 3px solid var(--border-focus);
   outline-offset: 2px;
 }
 

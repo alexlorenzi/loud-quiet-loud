@@ -29,7 +29,6 @@
 .genreIndicator {
   width: 4px;
   height: 20px;
-  border-radius: 2px;
 }
 
 .genreLabel {
@@ -41,7 +40,6 @@
 .genreChevron {
   margin-left: auto;
   color: var(--text-tertiary);
-  transition: transform 0.2s;
 }
 
 .genreChevron.open {

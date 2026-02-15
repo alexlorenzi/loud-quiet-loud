@@ -1,43 +1,43 @@
 :root {
-  /* Base Colors */
-  --bg-primary: hsl(220, 15%, 8%);
-  --bg-surface: hsl(220, 12%, 12%);
-  --bg-elevated: hsl(220, 10%, 16%);
-  --bg-hover: hsl(220, 10%, 20%);
-  --border-subtle: hsl(220, 10%, 20%);
-  --border-default: hsl(220, 10%, 28%);
-  --border-focus: hsl(30, 80%, 55%);
+  /* Base Colors - dark concrete */
+  --bg-primary: #1a1a1a;
+  --bg-surface: #222222;
+  --bg-elevated: #2a2a2a;
+  --bg-hover: #333333;
+  --border-subtle: #555555;
+  --border-default: #888888;
+  --border-focus: #ff5722;
 
-  /* Text */
-  --text-primary: hsl(30, 10%, 90%);
-  --text-secondary: hsl(30, 5%, 60%);
-  --text-tertiary: hsl(30, 5%, 40%);
+  /* Text - high contrast */
+  --text-primary: #f5f5f0;
+  --text-secondary: #bbbbbb;
+  --text-tertiary: #888888;
 
-  /* Note colors */
-  --note-root: hsl(14, 85%, 55%);
-  --note-chord-tone: hsl(45, 90%, 55%);
-  --note-scale: hsl(210, 60%, 55%);
+  /* Note colors - boosted saturation */
+  --note-root: hsl(14, 100%, 55%);
+  --note-chord-tone: hsl(45, 100%, 55%);
+  --note-scale: hsl(210, 80%, 55%);
   --note-nonscale: hsl(220, 10%, 30%);
 
-  /* Function colors */
-  --fn-tonic: hsl(210, 60%, 55%);
-  --fn-subdominant: hsl(45, 80%, 55%);
-  --fn-dominant: hsl(14, 75%, 55%);
+  /* Function colors - raw */
+  --fn-tonic: hsl(210, 80%, 55%);
+  --fn-subdominant: hsl(45, 100%, 55%);
+  --fn-dominant: hsl(14, 90%, 55%);
 
-  /* Genre colors */
-  --genre-pop: hsl(280, 50%, 55%);
-  --genre-blues: hsl(210, 70%, 45%);
-  --genre-jazz: hsl(30, 70%, 50%);
-  --genre-punk: hsl(350, 70%, 50%);
-  --genre-folk: hsl(140, 40%, 45%);
+  /* Genre colors - boosted */
+  --genre-pop: hsl(280, 70%, 55%);
+  --genre-blues: hsl(210, 90%, 50%);
+  --genre-jazz: hsl(30, 90%, 50%);
+  --genre-punk: hsl(350, 90%, 50%);
+  --genre-folk: hsl(140, 60%, 45%);
 
-  /* UI state */
-  --accent-primary: hsl(30, 80%, 55%);
-  --accent-hover: hsl(30, 80%, 65%);
-  --now-playing: hsl(30, 90%, 55%);
+  /* UI state - loud accent */
+  --accent-primary: #ff5722;
+  --accent-hover: #ff7043;
+  --now-playing: #ff5722;
 
-  /* Typography */
-  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* Typography - all mono for brutalist feel */
+  --font-primary: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Consolas', monospace;
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Consolas', monospace;
   --text-base: 1rem;
   --text-lg: 1.25rem;
@@ -51,14 +51,14 @@
   --space-6: 24px;
   --space-8: 32px;
 
-  /* Radii */
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-full: 9999px;
+  /* Radii - zero everywhere */
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-full: 0;
 
-  /* Shadows */
-  --shadow-md: 0 4px 12px hsla(0, 0%, 0%, 0.4);
-  --shadow-lg: 0 8px 24px hsla(0, 0%, 0%, 0.5);
+  /* Shadows - hard offset, no blur */
+  --shadow-md: 3px 3px 0 rgba(0, 0, 0, 0.8);
+  --shadow-lg: 5px 5px 0 rgba(0, 0, 0, 0.9);
 }
 
 /* Responsive typography */
@@ -72,19 +72,19 @@
 
 /* High contrast mode */
 body.high-contrast {
-  --bg-primary: hsl(0, 0%, 0%);
-  --bg-surface: hsl(0, 0%, 5%);
-  --bg-elevated: hsl(0, 0%, 10%);
-  --bg-hover: hsl(0, 0%, 15%);
-  --text-primary: hsl(0, 0%, 100%);
-  --text-secondary: hsl(0, 0%, 80%);
-  --text-tertiary: hsl(0, 0%, 60%);
+  --bg-primary: #000000;
+  --bg-surface: #0a0a0a;
+  --bg-elevated: #111111;
+  --bg-hover: #1a1a1a;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-tertiary: #999999;
   --note-root: hsl(0, 100%, 50%);
   --note-chord-tone: hsl(60, 100%, 50%);
   --note-scale: hsl(200, 100%, 60%);
   --border-focus: hsl(60, 100%, 50%);
-  --border-subtle: hsl(0, 0%, 25%);
-  --border-default: hsl(0, 0%, 35%);
+  --border-subtle: #444444;
+  --border-default: #ffffff;
   --accent-primary: hsl(60, 100%, 50%);
   --accent-hover: hsl(60, 100%, 60%);
 }
@@ -124,7 +124,7 @@ textarea {
 
 /* Visible focus rings for keyboard navigation */
 :focus-visible {
-  outline: 2px solid var(--border-focus);
+  outline: 3px solid var(--border-focus);
   outline-offset: 2px;
 }
 

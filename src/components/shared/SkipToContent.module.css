@@ -9,13 +9,11 @@
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  border-radius: 0 0 var(--radius-md) 0;
   transform: translateY(-100%);
-  transition: transform 0.2s ease;
 }
 
 .skipLink:focus {
   transform: translateY(0);
-  outline: 2px solid var(--border-focus);
+  outline: 3px solid var(--border-focus);
   outline-offset: 2px;
 }

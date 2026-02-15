@@ -4,7 +4,7 @@
   gap: var(--space-4);
   padding: var(--space-3);
   background: var(--bg-surface);
-  border-top: 1px solid var(--border-subtle);
+  border-top: 2px solid var(--border-subtle);
 }
 
 .tabs {
@@ -16,12 +16,11 @@
 .tab {
   padding: var(--space-2) var(--space-4);
   background: var(--bg-elevated);
-  border: 1px solid var(--border-default);
+  border: 2px solid var(--border-default);
   border-radius: var(--radius-md);
   font-size: 12px;
   font-weight: 600;
   color: var(--text-secondary);
-  transition: all 0.2s;
 }
 
 .tab:hover {
@@ -38,12 +37,11 @@
 .toggle {
   padding: var(--space-2) var(--space-4);
   background: var(--bg-elevated);
-  border: 1px solid var(--border-default);
+  border: 2px solid var(--border-default);
   border-radius: var(--radius-md);
   font-size: 12px;
   font-weight: 600;
   color: var(--text-secondary);
-  transition: all 0.2s;
 }
 
 .toggle:hover {

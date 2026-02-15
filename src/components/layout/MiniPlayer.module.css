@@ -11,7 +11,7 @@
     right: 0;
     height: 56px;
     background: var(--bg-elevated);
-    border-top: 1px solid var(--border-subtle);
+    border-top: 2px solid var(--border-subtle);
     z-index: 100;
     align-items: center;
     padding: 0 var(--space-3);
@@ -28,12 +28,11 @@
   min-width: 44px;
   min-height: 44px;
   background: var(--bg-surface);
-  border: 1px solid var(--border-default);
+  border: 2px solid var(--border-default);
   border-radius: var(--radius-full);
   color: var(--text-primary);
   font-size: 16px;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
 }
 
 .playButton:hover {
@@ -118,7 +117,7 @@
   min-width: 44px;
   min-height: 44px;
   background: var(--bg-surface);
-  border: 1px solid var(--border-default);
+  border: 2px solid var(--border-default);
   border-radius: var(--radius-full);
   color: var(--text-primary);
   font-size: 18px;

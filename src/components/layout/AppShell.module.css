@@ -8,7 +8,7 @@
 
 .header {
   grid-row: 1;
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 2px solid var(--border-subtle);
   z-index: 100;
 }
 
@@ -24,7 +24,7 @@
   grid-column: 1;
   grid-row: 1 / 3;
   overflow-y: auto;
-  border-right: 1px solid var(--border-subtle);
+  border-right: 2px solid var(--border-subtle);
   background: var(--bg-surface);
 }
 
@@ -42,14 +42,14 @@
   grid-column: 3;
   grid-row: 1 / 3;
   overflow-y: auto;
-  border-left: 1px solid var(--border-subtle);
+  border-left: 2px solid var(--border-subtle);
   background: var(--bg-surface);
 }
 
 .fretboardZone {
   grid-column: 2;
   grid-row: 2;
-  border-top: 1px solid var(--border-subtle);
+  border-top: 2px solid var(--border-subtle);
   background: var(--bg-elevated);
   overflow: auto;
   padding: var(--space-4);
@@ -57,7 +57,7 @@
 
 .transport {
   grid-row: 3;
-  border-top: 1px solid var(--border-default);
+  border-top: 3px solid var(--border-default);
   background: var(--bg-elevated);
   z-index: 100;
 }
@@ -93,7 +93,7 @@
 
 .tabletFretboard {
   flex: 1;
-  border-top: 1px solid var(--border-subtle);
+  border-top: 2px solid var(--border-subtle);
   background: var(--bg-elevated);
   padding: var(--space-4);
   overflow: auto;
@@ -101,7 +101,7 @@
 
 /* ===== Mobile layout (< 768px) ===== */
 .headerMobile {
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 2px solid var(--border-subtle);
   z-index: 100;
 }
 

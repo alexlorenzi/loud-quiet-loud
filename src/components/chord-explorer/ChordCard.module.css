@@ -8,17 +8,16 @@
   width: 96px;
   min-height: 80px;
   background: var(--bg-elevated);
-  border: 1px solid var(--border-default);
+  border: 2px solid var(--border-default);
   border-radius: var(--radius-md);
   padding: var(--space-2);
-  transition: all 0.2s;
   cursor: pointer;
 }
 
 .card:hover {
   background: var(--bg-hover);
   border-color: var(--accent-primary);
-  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .card.selected {
@@ -28,17 +27,7 @@
 
 .card.nowPlaying {
   border-color: var(--now-playing);
-  border-width: 2px;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    border-color: var(--now-playing);
-  }
-  50% {
-    border-color: var(--accent-hover);
-  }
+  border-width: 3px;
 }
 
 .functionBorder {
@@ -46,8 +35,7 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 3px;
-  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  width: 4px;
 }
 
 .functionBorder.tonic {

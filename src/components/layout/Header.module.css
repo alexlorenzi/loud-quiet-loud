@@ -45,11 +45,10 @@
   min-width: 44px;
   min-height: 44px;
   background: transparent;
-  border: 1px solid var(--border-subtle);
+  border: 2px solid var(--border-subtle);
   border-radius: var(--radius-md);
   color: var(--text-secondary);
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
 }
 
 .contrastToggle:hover {

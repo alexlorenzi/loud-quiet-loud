@@ -6,16 +6,6 @@
   align-items: center;
   justify-content: center;
   background: hsla(0, 0%, 0%, 0.6);
-  animation: fadeIn 0.15s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 .panel {
@@ -24,22 +14,10 @@
   max-height: 80vh;
   overflow-y: auto;
   background: var(--bg-elevated);
-  border: 1px solid var(--border-default);
+  border: 2px solid var(--border-default);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
   padding: var(--space-6);
-  animation: slideUp 0.2s ease-out;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .closeButton {
@@ -55,7 +33,6 @@
   color: var(--text-secondary);
   font-size: 18px;
   line-height: 1;
-  transition: background 0.15s, color 0.15s;
 }
 
 .closeButton:hover {
@@ -64,7 +41,7 @@
 }
 
 .closeButton:focus-visible {
-  outline: 2px solid var(--border-focus);
+  outline: 3px solid var(--border-focus);
   outline-offset: 2px;
 }
 

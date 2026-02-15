@@ -11,7 +11,7 @@
     right: 0;
     height: 48px;
     background: var(--bg-surface);
-    border-top: 1px solid var(--border-subtle);
+    border-top: 2px solid var(--border-subtle);
     z-index: 100;
   }
 }
@@ -28,13 +28,12 @@
   padding: var(--space-1) 0;
   background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
   color: var(--text-secondary);
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.02em;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
   position: relative;
 }
 
