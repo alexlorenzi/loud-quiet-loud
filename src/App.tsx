@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useAppStore } from './store/app-store.js';
 import { computeScale } from './engine/music-theory.js';
 import { generateDiatonicChords } from './engine/chord-generator.js';
@@ -17,7 +17,7 @@ import { Header } from './components/layout/Header.js';
 import { KeySelector } from './components/key-selector/KeySelector.js';
 import { KeyInfo } from './components/key-selector/KeyInfo.js';
 import { ChordExplorer } from './components/chord-explorer/ChordExplorer.js';
-import { ProgressionLibrary } from './components/progressions/ProgressionLibrary.js';
+import { ProgressionPicker } from './components/progressions/ProgressionPicker.js';
 import { Fretboard } from './components/fretboard/Fretboard.js';
 import { FretboardLegend } from './components/fretboard/FretboardLegend.js';
 import { ScaleSelector } from './components/scales/ScaleSelector.js';
@@ -180,9 +180,12 @@ function App(): JSX.Element {
     <>
       <AppShell
         header={<Header keySelector={<KeySelector />} keyInfo={<KeyInfo />} />}
-        leftPanel={<ChordExplorer />}
-        center={<ProgressionLibrary />}
-        rightPanel={null}
+        sidebar={
+          <>
+            <ProgressionPicker />
+            <ChordExplorer />
+          </>
+        }
         fretboard={
           <>
             <Fretboard

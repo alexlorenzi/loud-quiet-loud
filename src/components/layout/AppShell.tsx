@@ -10,9 +10,7 @@ import styles from './AppShell.module.css';
 
 interface AppShellProps {
   header: ReactNode;
-  leftPanel: ReactNode;
-  center: ReactNode;
-  rightPanel: ReactNode;
+  sidebar: ReactNode;
   fretboard: ReactNode;
   transport: ReactNode;
   scaleSelector: ReactNode;
@@ -20,9 +18,7 @@ interface AppShellProps {
 
 export function AppShell({
   header,
-  leftPanel,
-  center,
-  rightPanel,
+  sidebar,
   fretboard,
   transport,
   scaleSelector,
@@ -42,8 +38,7 @@ export function AppShell({
             aria-labelledby="tab-chords"
             className={styles.tabPanel}
           >
-            {leftPanel}
-            {center}
+            {sidebar}
           </div>
         );
       case 'fretboard':
@@ -76,7 +71,7 @@ export function AppShell({
     }
   }
 
-  // Tablet: stacked two-column layout
+  // Tablet: sidebar + full-width fretboard
   if (isTablet) {
     return (
       <div className={styles.shell}>
@@ -84,10 +79,7 @@ export function AppShell({
         <ScreenReaderAnnouncer />
         <header className={styles.header}>{header}</header>
         <main id="main-content" className={styles.mainTablet}>
-          <div className={styles.tabletTopRow}>
-            <div className={styles.tabletLeft}>{leftPanel}</div>
-            <div className={styles.tabletRight}>{center}</div>
-          </div>
+          <div className={styles.tabletSidebar}>{sidebar}</div>
           <div className={styles.tabletFretboard}>
             {fretboard}
             {scaleSelector}
@@ -115,16 +107,14 @@ export function AppShell({
     );
   }
 
-  // Desktop: three-column grid
+  // Desktop: two-column grid (sidebar + fretboard)
   return (
     <div className={styles.shell}>
       <SkipToContent />
       <ScreenReaderAnnouncer />
       <header className={styles.header}>{header}</header>
       <main id="main-content" className={styles.main}>
-        <aside className={styles.leftPanel}>{leftPanel}</aside>
-        <div className={styles.centerPanel}>{center}</div>
-        <aside className={styles.rightPanel}>{rightPanel}</aside>
+        <aside className={styles.sidebar}>{sidebar}</aside>
         <div className={styles.fretboardZone}>
           {fretboard}
           {scaleSelector}
