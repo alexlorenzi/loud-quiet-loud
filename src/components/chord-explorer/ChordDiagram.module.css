@@ -34,7 +34,7 @@
 }
 
 .fingerNumber {
-  fill: var(--bg-primary);
+  fill: var(--accent-text);
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
