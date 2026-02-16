@@ -3,6 +3,7 @@ import { useAppStore } from '../store/app-store.js';
 import { getAudioEngine } from '../audio/audio-engine.js';
 import { ensureAudioContext } from '../audio/context-manager.js';
 import { PRESET_PROGRESSIONS } from '../constants/progressions.js';
+import { getStrumPatternForGenre } from '../constants/strum-patterns.js';
 import { generateDiatonicChords } from '../engine/chord-generator.js';
 import { nameToPitchClass, pitchClassToName } from '../engine/note-utils.js';
 import { getDefaultVoicing, VOICING_NOTE_NAMES } from '../data/voicing-lookup.js';
@@ -215,9 +216,14 @@ export function usePlayback(): {
     setPlaybackState('count-in');
     setCurrentChordIndex(0);
 
+    // Resolve the strum pattern from the progression's genre
+    const preset = PRESET_PROGRESSIONS.find((p) => p.id === selectedProgressionId);
+    const strumPattern = getStrumPatternForGenre(preset?.genre ?? '');
+
     // Schedule the progression
     engine.transport.scheduleProgression(
       scheduled,
+      strumPattern,
       (chordIndex) => {
         setCurrentChordIndex(chordIndex);
       },
