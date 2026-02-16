@@ -29,7 +29,7 @@ export const PRESET_PROGRESSIONS: PresetProgression[] = [
       { degree: 6, romanNumeral: 'vi' },
       { degree: 4, romanNumeral: 'IV' }
     ],
-    beatsPerChord: 2,
+    beatsPerChord: 4,
     theoryContentId: 'pop-progression-1564',
     examples: ['Let It Be - The Beatles', 'Don\'t Stop Believin\' - Journey', 'Someone Like You - Adele']
   },
@@ -43,7 +43,7 @@ export const PRESET_PROGRESSIONS: PresetProgression[] = [
       { degree: 4, romanNumeral: 'IV' },
       { degree: 5, romanNumeral: 'V' }
     ],
-    beatsPerChord: 2,
+    beatsPerChord: 4,
     theoryContentId: 'pop-progression-145',
     examples: ['La Bamba - Ritchie Valens', 'Twist and Shout - The Beatles', 'Wild Thing - The Troggs']
   },
@@ -58,7 +58,7 @@ export const PRESET_PROGRESSIONS: PresetProgression[] = [
       { degree: 1, romanNumeral: 'I' },
       { degree: 5, romanNumeral: 'V' }
     ],
-    beatsPerChord: 2,
+    beatsPerChord: 4,
     theoryContentId: 'pop-progression-6415',
     examples: ['Grenade - Bruno Mars', 'Apologize - OneRepublic', 'Africa - Toto']
   },
@@ -73,7 +73,7 @@ export const PRESET_PROGRESSIONS: PresetProgression[] = [
       { degree: 4, romanNumeral: 'IV' },
       { degree: 5, romanNumeral: 'V' }
     ],
-    beatsPerChord: 2,
+    beatsPerChord: 4,
     theoryContentId: 'pop-progression-1645',
     examples: ['Stand By Me - Ben E. King', 'Every Breath You Take - The Police', 'Blue Moon - The Marcels']
   },
@@ -139,7 +139,7 @@ export const PRESET_PROGRESSIONS: PresetProgression[] = [
       { degree: 2, quality: 'm7', romanNumeral: 'iim7' },
       { degree: 5, quality: '7', romanNumeral: 'V7' }
     ],
-    beatsPerChord: 2,
+    beatsPerChord: 4,
     theoryContentId: 'jazz-rhythm-changes',
     examples: ['I Got Rhythm - George Gershwin', 'Oleo - Sonny Rollins', 'Anthropology - Charlie Parker']
   },
@@ -168,7 +168,7 @@ export const PRESET_PROGRESSIONS: PresetProgression[] = [
       { degree: 6, romanNumeral: 'vi' },
       { degree: 4, romanNumeral: 'IV' }
     ],
-    beatsPerChord: 2,
+    beatsPerChord: 4,
     theoryContentId: 'pop-punk-1564',
     examples: ['Fat Lip - Sum 41', 'Ocean Avenue - Yellowcard', 'The Anthem - Good Charlotte']
   },
@@ -183,7 +183,7 @@ export const PRESET_PROGRESSIONS: PresetProgression[] = [
       { degree: 1, romanNumeral: 'I' },
       { degree: 5, romanNumeral: 'V' }
     ],
-    beatsPerChord: 2,
+    beatsPerChord: 4,
     theoryContentId: 'pop-punk-6415',
     examples: ['Dear Maria Count Me In - All Time Low', 'Check Yes Juliet - We The Kings', 'MakeDamnSure - Taking Back Sunday']
   },
