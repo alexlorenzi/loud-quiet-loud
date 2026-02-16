@@ -36,6 +36,19 @@ interface ProgressionChord {
   voicing: ChordPosition | null;
 }
 
+function SlashMark({ active }: { active: boolean }): React.JSX.Element {
+  return (
+    <svg
+      width="10"
+      height="16"
+      viewBox="0 0 10 16"
+      className={active ? styles.slashActive : styles.slash}
+    >
+      <line x1="1" y1="15" x2="9" y2="1" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function ProgressionChordBar(): React.JSX.Element | null {
   const {
     selectedProgressionId,
@@ -78,32 +91,52 @@ export function ProgressionChordBar(): React.JSX.Element | null {
     });
   }, [selectedProgressionId, keyRoot, mode]);
 
+  const beatsPerChord = useMemo(() => {
+    if (!selectedProgressionId) return 4;
+    const preset = PRESET_PROGRESSIONS.find((p) => p.id === selectedProgressionId);
+    return preset?.beatsPerChord ?? 4;
+  }, [selectedProgressionId]);
+
   if (chords.length === 0) return null;
 
   const isPlaying = playbackState === 'playing' || playbackState === 'paused';
 
   return (
-    <div className={styles.bar}>
-      {chords.map((chord) => {
+    <div className={styles.staff}>
+      {chords.map((chord, i) => {
         const isCurrent = isPlaying && chord.index === currentChordIndex;
+        const showChord = i === 0 || chord.displayName !== chords[i - 1].displayName;
+
         return (
           <div
             key={chord.index}
-            className={`${styles.chord} ${isCurrent ? styles.active : ''}`}
+            className={`${styles.measure} ${isCurrent ? styles.activeMeasure : ''}`}
           >
-            <span className={styles.name}>{chord.displayName}</span>
-            <span className={styles.roman}>{chord.romanNumeral}</span>
-            {chord.voicing && (
-              <div className={styles.diagram}>
-                <ChordDiagram
-                  frets={chord.voicing.frets}
-                  fingers={chord.voicing.fingers}
-                  barres={chord.voicing.barres}
-                  baseFret={chord.voicing.baseFret}
-                  compact
-                />
-              </div>
-            )}
+            <div className={styles.chordLabel}>
+              {showChord && (
+                <>
+                  {chord.voicing && (
+                    <div className={styles.diagram}>
+                      <ChordDiagram
+                        frets={chord.voicing.frets}
+                        fingers={chord.voicing.fingers}
+                        barres={chord.voicing.barres}
+                        baseFret={chord.voicing.baseFret}
+                        compact
+                      />
+                    </div>
+                  )}
+                  <span className={styles.name}>{chord.displayName}</span>
+                  <span className={styles.roman}>{chord.romanNumeral}</span>
+                </>
+              )}
+            </div>
+
+            <div className={styles.beats}>
+              {Array.from({ length: beatsPerChord }, (_, beat) => (
+                <SlashMark key={beat} active={isCurrent} />
+              ))}
+            </div>
           </div>
         );
       })}

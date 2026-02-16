@@ -1,52 +1,88 @@
-.bar {
+.staff {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: center;
-  gap: var(--space-8);
   padding: var(--space-3) var(--space-4);
+  overflow-x: auto;
 }
 
-.chord {
+.measure {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  transition: opacity 0.15s;
+  border-right: 1.5px solid var(--text-tertiary);
+  padding: 0 var(--space-3);
+  transition: background-color 0.15s;
 }
 
-.chord.active .name {
-  color: var(--now-playing);
+.measure:first-child {
+  border-left: 1.5px solid var(--text-tertiary);
+}
+
+.measure:last-child {
+  border-right-width: 3px;
+}
+
+.activeMeasure {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.chordLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 150px;
+  gap: 2px;
 }
 
 .name {
   font-family: var(--font-mono);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1;
   transition: color 0.15s;
 }
 
+.activeMeasure .name {
+  color: var(--now-playing);
+}
+
 .roman {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   color: var(--text-tertiary);
   letter-spacing: 0.05em;
   line-height: 1;
 }
 
-.chord.active .roman {
+.activeMeasure .roman {
   color: var(--now-playing);
   opacity: 0.7;
 }
 
 .diagram {
-  margin-top: var(--space-1);
+  margin-bottom: var(--space-1);
   opacity: 0.7;
   transition: opacity 0.15s;
 }
 
-.chord.active .diagram {
+.activeMeasure .diagram {
   opacity: 1;
+}
+
+.beats {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+}
+
+.slash line {
+  stroke: var(--text-tertiary);
+}
+
+.slashActive line {
+  stroke: var(--now-playing);
 }
