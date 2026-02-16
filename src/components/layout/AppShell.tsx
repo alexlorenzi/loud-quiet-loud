@@ -1,3 +1,4 @@
+import type React from 'react';
 import type { ReactNode } from 'react';
 import { useAppStore } from '../../store/app-store.js';
 import { useIsMobile, useIsTablet } from '../../hooks/use-media-query.js';
@@ -22,7 +23,7 @@ export function AppShell({
   fretboard,
   transport,
   scaleSelector,
-}: AppShellProps): JSX.Element {
+}: AppShellProps): React.JSX.Element {
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
   const activeTab = useAppStore((s) => s.activeTab);

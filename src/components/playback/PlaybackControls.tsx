@@ -1,8 +1,9 @@
+import type React from 'react';
 import { useAppStore } from '../../store/app-store.js';
 import { usePlayback } from '../../hooks/usePlayback.js';
 import styles from './PlaybackControls.module.css';
 
-export function PlaybackControls(): JSX.Element {
+export function PlaybackControls(): React.JSX.Element {
   const {
     playbackState,
     tempo,

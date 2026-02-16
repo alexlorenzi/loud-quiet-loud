@@ -1,3 +1,4 @@
+import type React from 'react';
 import type { ReactNode } from 'react';
 import { useAppStore } from '../../store/app-store.js';
 import styles from './Header.module.css';
@@ -7,7 +8,7 @@ interface HeaderProps {
   keyInfo: ReactNode;
 }
 
-export function Header({ keySelector, keyInfo }: HeaderProps): JSX.Element {
+export function Header({ keySelector, keyInfo }: HeaderProps): React.JSX.Element {
   const highContrast = useAppStore((s) => s.highContrast);
   const toggleHighContrast = useAppStore((s) => s.toggleHighContrast);
 

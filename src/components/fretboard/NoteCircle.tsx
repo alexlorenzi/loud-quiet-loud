@@ -1,3 +1,4 @@
+import type React from 'react';
 import type { NoteName } from '../../types/music.js';
 import type { NoteDisplayType } from '../../types/ui.js';
 
@@ -28,7 +29,7 @@ const NOTE_COLORS: Record<NoteDisplayType, string> = {
   'non-scale': 'var(--note-nonscale)',
 };
 
-export function NoteCircle({ x, y, noteName, noteType }: NoteCircleProps): JSX.Element {
+export function NoteCircle({ x, y, noteName, noteType }: NoteCircleProps): React.JSX.Element {
   const shape = NOTE_SHAPES[noteType];
   const color = NOTE_COLORS[noteType];
   const size = noteType === 'non-scale' ? 4 : 12;

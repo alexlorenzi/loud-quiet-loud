@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useAppStore } from '../../store/app-store.js';
 import styles from './InfoIcon.module.css';
 
@@ -10,7 +11,7 @@ interface InfoIconProps {
 /**
  * A small "i" button that opens the TheoryPopup for the given content ID.
  */
-export function InfoIcon({ theoryContentId, label }: InfoIconProps): JSX.Element {
+export function InfoIcon({ theoryContentId, label }: InfoIconProps): React.JSX.Element {
   const setTheoryPopup = useAppStore((s) => s.setTheoryPopup);
 
   function handleClick(e: React.MouseEvent) {

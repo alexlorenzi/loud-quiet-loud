@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useState, useMemo } from 'react';
 import { PRESET_PROGRESSIONS } from '../../constants/progressions.js';
 import { useAppStore } from '../../store/app-store.js';
@@ -20,7 +21,7 @@ const GENRE_SHORT: Record<string, string> = {
   'Folk/Country': 'FOLK',
 };
 
-export function ProgressionPicker(): JSX.Element {
+export function ProgressionPicker(): React.JSX.Element {
   const { selectedProgressionId, revealedProgressionIds } = useAppStore();
 
   const genres = useMemo(() => {

@@ -1,3 +1,4 @@
+import type React from 'react';
 import type { ReactNode } from 'react';
 import { useEffect, useRef, useCallback } from 'react';
 import { useAppStore } from '../../store/app-store.js';
@@ -8,7 +9,7 @@ interface MiniPlayerProps {
   fullControls: ReactNode;
 }
 
-export function MiniPlayer({ fullControls }: MiniPlayerProps): JSX.Element {
+export function MiniPlayer({ fullControls }: MiniPlayerProps): React.JSX.Element {
   const playbackState = useAppStore((s) => s.playbackState);
   const tempo = useAppStore((s) => s.tempo);
   const setPlaybackState = useAppStore((s) => s.setPlaybackState);

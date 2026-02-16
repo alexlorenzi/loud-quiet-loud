@@ -1,3 +1,4 @@
+import type React from 'react';
 import type { PresetProgression } from '../../constants/progressions.js';
 import { useAppStore } from '../../store/app-store.js';
 import styles from './ProgressionRow.module.css';
@@ -14,7 +15,7 @@ export function ProgressionRow({
   isSelected,
   isRevealed,
   genreColor,
-}: ProgressionRowProps): JSX.Element {
+}: ProgressionRowProps): React.JSX.Element {
   const { setProgression, toggleProgressionReveal } = useAppStore();
 
   const romanNumeralSequence = progression.pattern

@@ -1,3 +1,4 @@
+import type React from 'react';
 import styles from './ChordDiagram.module.css';
 
 interface ChordDiagramProps {
@@ -14,7 +15,7 @@ export function ChordDiagram({
   barres,
   baseFret,
   compact = false,
-}: ChordDiagramProps): JSX.Element {
+}: ChordDiagramProps): React.JSX.Element {
   const strings = 6;
   const fretsToShow = 5;
   const stringSpacing = compact ? 12 : 16;

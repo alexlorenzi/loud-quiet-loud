@@ -1,10 +1,11 @@
+import type React from 'react';
 import { useAppStore } from '../../store/app-store.js';
 
 /**
  * Invisible live region that announces state changes to screen readers.
  * Reads the latest announcement from the store.
  */
-export function ScreenReaderAnnouncer(): JSX.Element {
+export function ScreenReaderAnnouncer(): React.JSX.Element {
   const announcement = useAppStore((s) => s.announcement);
 
   return (

@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useEffect } from 'react';
 import { useAppStore } from '../../store/app-store.js';
 import styles from './Toast.module.css';
@@ -10,7 +11,7 @@ const ICONS: Record<string, string> = {
 
 const AUTO_DISMISS_MS = 3000;
 
-export function Toast(): JSX.Element | null {
+export function Toast(): React.JSX.Element | null {
   const message = useAppStore((s) => s.toastMessage);
   const type = useAppStore((s) => s.toastType);
   const dismiss = useAppStore((s) => s.dismissToast);

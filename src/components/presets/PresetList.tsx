@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { usePresets } from '../../hooks/usePresets.js';
 import { useAppStore } from '../../store/app-store.js';
@@ -5,7 +6,7 @@ import { MAX_PRESETS } from '../../storage/local-storage.js';
 import { SavePresetDialog } from './SavePresetDialog.js';
 import styles from './PresetList.module.css';
 
-export function PresetList(): JSX.Element {
+export function PresetList(): React.JSX.Element {
   const { presets, isFull, savePreset, loadPreset, deletePreset } = usePresets();
   const showToast = useAppStore((s) => s.showToast);
 

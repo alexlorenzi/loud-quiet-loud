@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useAppStore } from '../../store/app-store.js';
 import type { MobileTab } from '../../types/ui.js';
 import styles from './MobileTabNav.module.css';
@@ -14,7 +15,7 @@ const TABS: TabDef[] = [
   { id: 'scales', label: 'Scales', icon: '\u{1F3BC}' },       // musical score
 ];
 
-export function MobileTabNav(): JSX.Element {
+export function MobileTabNav(): React.JSX.Element {
   const activeTab = useAppStore((s) => s.activeTab);
   const setActiveTab = useAppStore((s) => s.setActiveTab);
 

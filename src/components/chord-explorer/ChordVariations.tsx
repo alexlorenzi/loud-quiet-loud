@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useMemo, useState } from 'react';
 import type { DiatonicChord, ChordQuality } from '../../types/music.js';
 import { useAppStore } from '../../store/app-store.js';
@@ -12,7 +13,7 @@ interface ChordVariationsProps {
   chord: DiatonicChord;
 }
 
-export function ChordVariations({ chord }: ChordVariationsProps): JSX.Element {
+export function ChordVariations({ chord }: ChordVariationsProps): React.JSX.Element {
   const { keyRoot, mode } = useAppStore();
   const [selectedVariationIndex, setSelectedVariationIndex] = useState<number | null>(null);
 

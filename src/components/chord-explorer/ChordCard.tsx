@@ -1,3 +1,4 @@
+import type React from 'react';
 import type { DiatonicChord } from '../../types/music.js';
 import styles from './ChordCard.module.css';
 
@@ -13,7 +14,7 @@ export function ChordCard({
   isSelected,
   isNowPlaying = false,
   onClick,
-}: ChordCardProps): JSX.Element {
+}: ChordCardProps): React.JSX.Element {
   const cardClasses = [styles.card];
   if (isSelected) cardClasses.push(styles.selected);
   if (isNowPlaying) cardClasses.push(styles.nowPlaying);

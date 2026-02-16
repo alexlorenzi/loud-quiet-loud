@@ -1,9 +1,10 @@
+import type React from 'react';
 import { useMemo } from 'react';
 import { useAppStore } from '../../store/app-store.js';
 import { getKeySignature } from '../../engine/music-theory.js';
 import styles from './KeyInfo.module.css';
 
-export function KeyInfo(): JSX.Element {
+export function KeyInfo(): React.JSX.Element {
   const { keyRoot, mode } = useAppStore();
 
   const keySignature = useMemo(() => getKeySignature(keyRoot, mode), [keyRoot, mode]);

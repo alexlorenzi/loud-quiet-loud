@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import type { NoteName, Mode } from '../../types/music.js';
 import { useAppStore } from '../../store/app-store.js';
@@ -6,7 +7,7 @@ import styles from './KeySelector.module.css';
 const MAJOR_KEYS: NoteName[] = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Db', 'Ab', 'Eb', 'Bb', 'F'];
 const MINOR_KEYS: NoteName[] = ['A', 'E', 'B', 'F#', 'C#', 'G#', 'Eb', 'Bb', 'F', 'C', 'G', 'D'];
 
-export function KeySelector(): JSX.Element {
+export function KeySelector(): React.JSX.Element {
   const { keyRoot, mode, setKey, setPlaybackState } = useAppStore();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);

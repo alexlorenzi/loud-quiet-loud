@@ -1,8 +1,9 @@
+import type React from 'react';
 import { useAppStore } from '../../store/app-store.js';
 import { ensureAudioContext } from '../../audio/context-manager.js';
 import styles from './AudioBanner.module.css';
 
-export function AudioBanner(): JSX.Element {
+export function AudioBanner(): React.JSX.Element {
   const { setAudioContextReady } = useAppStore();
 
   async function handleClick(): Promise<void> {

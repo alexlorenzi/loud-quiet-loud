@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { useAppStore } from '../../store/app-store.js';
 import styles from './SavePresetDialog.module.css';
@@ -12,7 +13,7 @@ export function SavePresetDialog({
   onSave,
   onCancel,
   isFull,
-}: SavePresetDialogProps): JSX.Element {
+}: SavePresetDialogProps): React.JSX.Element {
   const keyRoot = useAppStore((s) => s.keyRoot);
   const mode = useAppStore((s) => s.mode);
   const selectedProgressionId = useAppStore((s) => s.selectedProgressionId);

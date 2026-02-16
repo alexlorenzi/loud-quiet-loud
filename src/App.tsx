@@ -1,4 +1,5 @@
-import { useCallback, useMemo } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useAppStore } from './store/app-store.js';
 import { computeScale } from './engine/music-theory.js';
 import { generateDiatonicChords } from './engine/chord-generator.js';
@@ -24,7 +25,7 @@ import { ScaleSelector } from './components/scales/ScaleSelector.js';
 import { PlaybackControls } from './components/playback/PlaybackControls.js';
 
 
-function App(): JSX.Element {
+function App(): React.JSX.Element {
   const {
     keyRoot,
     mode,

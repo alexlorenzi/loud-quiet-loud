@@ -1,3 +1,4 @@
+import type React from 'react';
 interface FretMarkersProps {
   fretWidth: number;
   leftMargin: number;
@@ -10,7 +11,7 @@ export function FretMarkers({
   leftMargin,
   topMargin,
   stringSpacing,
-}: FretMarkersProps): JSX.Element {
+}: FretMarkersProps): React.JSX.Element {
   const markerFrets = [3, 5, 7, 9, 15];
   const doubleMarkerFrets = [12];
   const centerY = topMargin + (stringSpacing * 5) / 2;

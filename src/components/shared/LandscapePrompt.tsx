@@ -1,9 +1,10 @@
+import type React from 'react';
 import { useState } from 'react';
 import styles from './LandscapePrompt.module.css';
 
 const DISMISSED_KEY = 'lql-landscape-dismissed';
 
-export function LandscapePrompt(): JSX.Element | null {
+export function LandscapePrompt(): React.JSX.Element | null {
   const [dismissed, setDismissed] = useState(() => {
     return sessionStorage.getItem(DISMISSED_KEY) === 'true';
   });

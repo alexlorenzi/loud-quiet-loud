@@ -1,3 +1,4 @@
+import type React from 'react';
 import type { NoteDisplayType } from '../../types/ui.js';
 import styles from './FretboardLegend.module.css';
 
@@ -29,7 +30,7 @@ const NOTE_COLORS: Record<NoteDisplayType, string> = {
   'non-scale': 'var(--note-nonscale)',
 };
 
-function ShapeSwatch({ type }: { type: NoteDisplayType }): JSX.Element {
+function ShapeSwatch({ type }: { type: NoteDisplayType }): React.JSX.Element {
   const color = NOTE_COLORS[type];
   const s = 8; // half-size for shapes
   const cx = 10;
@@ -69,7 +70,7 @@ interface FretboardLegendProps {
   isChordActive: boolean;
 }
 
-export function FretboardLegend({ isChordActive }: FretboardLegendProps): JSX.Element {
+export function FretboardLegend({ isChordActive }: FretboardLegendProps): React.JSX.Element {
   const entries = isChordActive ? CHORD_ENTRIES : SCALE_ENTRIES;
 
   return (

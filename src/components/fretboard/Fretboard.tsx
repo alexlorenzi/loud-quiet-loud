@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useRef, useCallback } from 'react';
 import type { FretPosition } from '../../types/music.js';
 import type { NoteDisplayType } from '../../types/ui.js';
@@ -41,7 +42,7 @@ export function Fretboard({
   fretboard,
   noteClassifier,
   onNoteClick,
-}: FretboardProps): JSX.Element {
+}: FretboardProps): React.JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
   const width = LEFT_MARGIN + FRET_WIDTH * FRETS_TO_SHOW + 60;
   const height = TOP_MARGIN + STRING_SPACING * 5 + BOTTOM_MARGIN;

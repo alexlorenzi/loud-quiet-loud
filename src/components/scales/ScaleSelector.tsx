@@ -1,3 +1,4 @@
+import type React from 'react';
 import { SCALE_SHAPE_POSITIONS } from '../../constants/scales.js';
 import { useAppStore } from '../../store/app-store.js';
 import styles from './ScaleSelector.module.css';
@@ -9,7 +10,7 @@ const SHORT_NAMES: Record<string, string> = {
   'natural-minor-3nps': 'Min 3NPS',
 };
 
-export function ScaleSelector(): JSX.Element {
+export function ScaleSelector(): React.JSX.Element {
   const { selectedScaleShapeId, scaleShapeVisible, selectOrDeselectShape } =
     useAppStore();
 

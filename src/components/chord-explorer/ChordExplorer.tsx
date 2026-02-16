@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useMemo } from 'react';
 import type { DiatonicChord, ChordFunction } from '../../types/music.js';
 import { useAppStore } from '../../store/app-store.js';
@@ -42,7 +43,7 @@ const FUNCTION_INFO: Record<
   },
 };
 
-export function ChordExplorer(): JSX.Element {
+export function ChordExplorer(): React.JSX.Element {
   const { keyRoot, mode, selectedChordDegree, setSelectedChordDegree } = useAppStore();
 
   const diatonicChords = useMemo(() => {

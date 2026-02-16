@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useEffect, useRef, useCallback } from 'react';
 import { useAppStore } from '../../store/app-store.js';
 import { useTheoryContent } from '../../hooks/useTheoryContent.js';
@@ -11,7 +12,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   interval: 'Concept',
 };
 
-export function TheoryPopup(): JSX.Element | null {
+export function TheoryPopup(): React.JSX.Element | null {
   const activeId = useAppStore((s) => s.activeTheoryPopupId);
   const setTheoryPopup = useAppStore((s) => s.setTheoryPopup);
   const keyRoot = useAppStore((s) => s.keyRoot);
