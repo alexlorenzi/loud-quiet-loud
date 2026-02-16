@@ -148,6 +148,7 @@ export function usePlayback(): {
     metronomeEnabled,
     setPlaybackState,
     setCurrentChordIndex,
+    setCurrentEighthInBar,
     setAudioContextReady,
   } = useAppStore();
 
@@ -233,6 +234,9 @@ export function usePlayback(): {
           setPlaybackState('playing');
         }
       },
+      (slotInBar) => {
+        setCurrentEighthInBar(slotInBar);
+      },
       engine.guitar,
       engine.drums,
       engine.metronome
@@ -256,6 +260,7 @@ export function usePlayback(): {
     metronomeEnabled,
     setPlaybackState,
     setCurrentChordIndex,
+    setCurrentEighthInBar,
     setAudioContextReady,
   ]);
 
@@ -271,7 +276,8 @@ export function usePlayback(): {
     isScheduledRef.current = false;
     setPlaybackState('stopped');
     setCurrentChordIndex(0);
-  }, [setPlaybackState, setCurrentChordIndex]);
+    setCurrentEighthInBar(0);
+  }, [setPlaybackState, setCurrentChordIndex, setCurrentEighthInBar]);
 
   // Stop playback when progression or key changes
   useEffect(() => {
@@ -281,8 +287,9 @@ export function usePlayback(): {
       isScheduledRef.current = false;
       setPlaybackState('stopped');
       setCurrentChordIndex(0);
+      setCurrentEighthInBar(0);
     }
-  }, [selectedProgressionId, keyRoot, mode, setPlaybackState, setCurrentChordIndex]);
+  }, [selectedProgressionId, keyRoot, mode, setPlaybackState, setCurrentChordIndex, setCurrentEighthInBar]);
 
   return {
     play,

@@ -21,6 +21,7 @@ export class Transport {
    * @param strumPattern - 8-slot pattern defining strum actions per bar
    * @param onChordChange - Called each time the chord changes (index into progression.chords)
    * @param onBeat - Called on each quarter-note beat
+   * @param onEighthNote - Called on each eighth note with the slot index (0-7) within the bar
    * @param guitar - GuitarSynth instance
    * @param drums - DrumSynth instance
    * @param metronome - Metronome instance
@@ -30,6 +31,7 @@ export class Transport {
     strumPattern: StrumPattern,
     onChordChange: (chordIndex: number) => void,
     onBeat: (beat: number) => void,
+    onEighthNote: (slotInBar: number) => void,
     guitar: GuitarSynth,
     drums: DrumSynth,
     metronome: Metronome
@@ -115,15 +117,18 @@ export class Transport {
           metronome.click(time, globalBeat === 0);
         }
 
-        // UI callbacks via Draw scheduler — quarter-note resolution only
-        if (!isUpbeat) {
-          Tone.getDraw().schedule(() => {
+        // UI callbacks via Draw scheduler
+        Tone.getDraw().schedule(() => {
+          // Chord change and beat callbacks on quarter notes only
+          if (!isUpbeat) {
             if (beatWithinChord === 0) {
               onChordChange(chordIndex);
             }
             onBeat(currentBeat);
-          }, time);
-        }
+          }
+          // Eighth-note cursor for rhythm notation (fires every eighth)
+          onEighthNote(slotInBar);
+        }, time);
 
         this.eighthNoteCounter++;
       },

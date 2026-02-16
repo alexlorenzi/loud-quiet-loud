@@ -2,10 +2,13 @@ import type React from 'react';
 import { useMemo } from 'react';
 import { useAppStore } from '../../store/app-store.js';
 import { PRESET_PROGRESSIONS } from '../../constants/progressions.js';
+import { getStrumPatternForGenre } from '../../constants/strum-patterns.js';
 import { generateDiatonicChords } from '../../engine/chord-generator.js';
 import { nameToPitchClass, pitchClassToName } from '../../engine/note-utils.js';
+import { computeBeatGroups } from '../../engine/strum-notation.js';
 import { getDefaultVoicing, VOICING_NOTE_NAMES } from '../../data/voicing-lookup.js';
 import { ChordDiagram } from '../chord-explorer/ChordDiagram.js';
+import { RhythmNotation } from './RhythmNotation.js';
 import type { ChordQuality } from '../../types/music.js';
 import type { ChordPosition } from '../../types/chords.js';
 import styles from './ProgressionChordBar.module.css';
@@ -36,25 +39,13 @@ interface ProgressionChord {
   voicing: ChordPosition | null;
 }
 
-function SlashMark({ active }: { active: boolean }): React.JSX.Element {
-  return (
-    <svg
-      width="10"
-      height="16"
-      viewBox="0 0 10 16"
-      className={active ? styles.slashActive : styles.slash}
-    >
-      <line x1="1" y1="15" x2="9" y2="1" strokeWidth="2.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 export function ProgressionChordBar(): React.JSX.Element | null {
   const {
     selectedProgressionId,
     keyRoot,
     mode,
     currentChordIndex,
+    currentEighthInBar,
     playbackState,
   } = useAppStore();
 
@@ -91,10 +82,11 @@ export function ProgressionChordBar(): React.JSX.Element | null {
     });
   }, [selectedProgressionId, keyRoot, mode]);
 
-  const beatsPerChord = useMemo(() => {
-    if (!selectedProgressionId) return 4;
+  const beatGroups = useMemo(() => {
+    if (!selectedProgressionId) return null;
     const preset = PRESET_PROGRESSIONS.find((p) => p.id === selectedProgressionId);
-    return preset?.beatsPerChord ?? 4;
+    const strumPattern = getStrumPatternForGenre(preset?.genre ?? '');
+    return computeBeatGroups(strumPattern);
   }, [selectedProgressionId]);
 
   if (chords.length === 0) return null;
@@ -132,11 +124,12 @@ export function ProgressionChordBar(): React.JSX.Element | null {
               )}
             </div>
 
-            <div className={styles.beats}>
-              {Array.from({ length: beatsPerChord }, (_, beat) => (
-                <SlashMark key={beat} active={isCurrent} />
-              ))}
-            </div>
+            {beatGroups && (
+              <RhythmNotation
+                beatGroups={beatGroups}
+                activeEighth={isCurrent ? currentEighthInBar : null}
+              />
+            )}
           </div>
         );
       })}

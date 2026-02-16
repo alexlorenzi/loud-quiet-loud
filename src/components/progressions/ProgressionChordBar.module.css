@@ -73,16 +73,3 @@
   opacity: 1;
 }
 
-.beats {
-  display: flex;
-  gap: var(--space-2);
-  padding: var(--space-2) 0;
-}
-
-.slash line {
-  stroke: var(--text-tertiary);
-}
-
-.slashActive line {
-  stroke: var(--now-playing);
-}

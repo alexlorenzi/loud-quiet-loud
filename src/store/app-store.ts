@@ -23,12 +23,14 @@ interface AppState {
   // Playback state
   playbackState: PlaybackState;
   currentChordIndex: number;
+  currentEighthInBar: number;
   tempo: number;
   masterVolume: number;
   drumsMuted: boolean;
   metronomeEnabled: boolean;
   setPlaybackState: (state: PlaybackState) => void;
   setCurrentChordIndex: (index: number) => void;
+  setCurrentEighthInBar: (eighth: number) => void;
   setTempo: (bpm: number) => void;
   setMasterVolume: (db: number) => void;
   toggleDrumsMuted: () => void;
@@ -76,12 +78,12 @@ export const useAppStore = create<AppState>((set) => ({
   keyRoot: 'C',
   mode: 'major',
   setKey: (root, mode) =>
-    set({ keyRoot: root, mode, playbackState: 'stopped', currentChordIndex: 0 }),
+    set({ keyRoot: root, mode, playbackState: 'stopped', currentChordIndex: 0, currentEighthInBar: 0 }),
 
   // No progression selected initially
   selectedProgressionId: null,
   setProgression: (id) =>
-    set({ selectedProgressionId: id, playbackState: 'stopped', currentChordIndex: 0 }),
+    set({ selectedProgressionId: id, playbackState: 'stopped', currentChordIndex: 0, currentEighthInBar: 0 }),
 
   // Default scale shape: Minor Pentatonic Box 1
   selectedScaleShapeId: 'pentatonic-minor-box1',
@@ -99,12 +101,14 @@ export const useAppStore = create<AppState>((set) => ({
   // Playback defaults
   playbackState: 'stopped',
   currentChordIndex: 0,
+  currentEighthInBar: 0,
   tempo: 100,
   masterVolume: -6,
   drumsMuted: false,
   metronomeEnabled: false,
   setPlaybackState: (state) => set({ playbackState: state }),
   setCurrentChordIndex: (index) => set({ currentChordIndex: index }),
+  setCurrentEighthInBar: (eighth) => set({ currentEighthInBar: eighth }),
   setTempo: (bpm) => set({ tempo: bpm }),
   setMasterVolume: (db) => set({ masterVolume: db }),
   toggleDrumsMuted: () => set((state) => ({ drumsMuted: !state.drumsMuted })),

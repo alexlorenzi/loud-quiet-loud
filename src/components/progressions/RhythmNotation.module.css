@@ -1,0 +1,19 @@
+.notation {
+  display: flex;
+  gap: var(--space-1);
+  padding: var(--space-2) 0;
+  align-items: center;
+}
+
+.beatGroup svg {
+  display: block;
+}
+
+.inactive {
+  color: var(--text-tertiary);
+}
+
+.active {
+  color: var(--now-playing);
+  transition: color 0.05s;
+}
