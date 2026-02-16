@@ -31,10 +31,20 @@ export function ProgressionRow({
     toggleProgressionReveal(progression.id);
   }
 
+  function handleKeyDown(e: React.KeyboardEvent): void {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleClick();
+    }
+  }
+
   return (
-    <button
+    <div
       className={`${styles.row} ${isSelected ? styles.selected : ''}`}
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
       aria-label={`${progression.feel} progression`}
       aria-pressed={isSelected}
     >
@@ -62,6 +72,6 @@ export function ProgressionRow({
       >
         {isRevealed ? '\u25BE' : '\u25B8'}
       </button>
-    </button>
+    </div>
   );
 }
