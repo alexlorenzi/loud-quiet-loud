@@ -225,10 +225,6 @@ export function usePlayback(): {
         // On first beat after count-in, switch to playing state
         if (useAppStore.getState().playbackState === 'count-in') {
           setPlaybackState('playing');
-          // Auto-reveal the progression's chords
-          if (selectedProgressionId) {
-            useAppStore.getState().revealProgression(selectedProgressionId);
-          }
         }
       },
       engine.guitar,

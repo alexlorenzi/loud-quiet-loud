@@ -22,7 +22,7 @@ const GENRE_SHORT: Record<string, string> = {
 };
 
 export function ProgressionPicker(): React.JSX.Element {
-  const { selectedProgressionId, revealedProgressionIds } = useAppStore();
+  const { selectedProgressionId } = useAppStore();
 
   const genres = useMemo(() => {
     const seen = new Set<string>();
@@ -62,7 +62,6 @@ export function ProgressionPicker(): React.JSX.Element {
             key={p.id}
             progression={p}
             isSelected={selectedProgressionId === p.id}
-            isRevealed={revealedProgressionIds.has(p.id)}
             genreColor={GENRE_COLORS[p.genre] || 'var(--accent-primary)'}
           />
         ))}

@@ -6,17 +6,15 @@ import styles from './ProgressionRow.module.css';
 interface ProgressionRowProps {
   progression: PresetProgression;
   isSelected: boolean;
-  isRevealed: boolean;
   genreColor: string;
 }
 
 export function ProgressionRow({
   progression,
   isSelected,
-  isRevealed,
   genreColor,
 }: ProgressionRowProps): React.JSX.Element {
-  const { setProgression, toggleProgressionReveal } = useAppStore();
+  const { setProgression } = useAppStore();
 
   const romanNumeralSequence = progression.pattern
     .map((chord) => chord.romanNumeral)
@@ -24,11 +22,6 @@ export function ProgressionRow({
 
   function handleClick(): void {
     setProgression(isSelected ? null : progression.id);
-  }
-
-  function handleRevealToggle(e: React.MouseEvent): void {
-    e.stopPropagation();
-    toggleProgressionReveal(progression.id);
   }
 
   function handleKeyDown(e: React.KeyboardEvent): void {
@@ -57,21 +50,10 @@ export function ProgressionRow({
             {progression.pattern.length} chords
           </span>
         </div>
-        <div
-          className={`${styles.sequence} ${isRevealed ? styles.revealed : styles.redacted}`}
-        >
+        <div className={styles.sequence}>
           {romanNumeralSequence}
         </div>
       </div>
-
-      <button
-        className={styles.revealToggle}
-        onClick={handleRevealToggle}
-        aria-label={isRevealed ? 'Hide chord sequence' : 'Reveal chord sequence'}
-        tabIndex={-1}
-      >
-        {isRevealed ? '\u25BE' : '\u25B8'}
-      </button>
     </div>
   );
 }

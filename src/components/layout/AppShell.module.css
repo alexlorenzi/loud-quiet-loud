@@ -33,11 +33,23 @@
   grid-row: 1;
   border-top: none;
   background: var(--bg-elevated);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.fretboardContent {
+  flex: 1;
   overflow: auto;
   padding: var(--space-4);
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.scaleSelectorBar {
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 .transport {

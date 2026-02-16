@@ -12,6 +12,7 @@ import styles from './AppShell.module.css';
 interface AppShellProps {
   header: ReactNode;
   sidebar: ReactNode;
+  progressionBar: ReactNode;
   fretboard: ReactNode;
   transport: ReactNode;
   scaleSelector: ReactNode;
@@ -20,6 +21,7 @@ interface AppShellProps {
 export function AppShell({
   header,
   sidebar,
+  progressionBar,
   fretboard,
   transport,
   scaleSelector,
@@ -50,6 +52,7 @@ export function AppShell({
             aria-labelledby="tab-fretboard"
             className={styles.tabPanel}
           >
+            {progressionBar}
             <div className={styles.fretboardScrollWrapper}>
               {fretboard}
             </div>
@@ -82,6 +85,7 @@ export function AppShell({
         <main id="main-content" className={styles.mainTablet}>
           <div className={styles.tabletSidebar}>{sidebar}</div>
           <div className={styles.tabletFretboard}>
+            {progressionBar}
             {fretboard}
             {scaleSelector}
           </div>
@@ -117,8 +121,11 @@ export function AppShell({
       <main id="main-content" className={styles.main}>
         <aside className={styles.sidebar}>{sidebar}</aside>
         <div className={styles.fretboardZone}>
-          {fretboard}
-          {scaleSelector}
+          <div className={styles.fretboardContent}>
+            {progressionBar}
+            {fretboard}
+          </div>
+          <div className={styles.scaleSelectorBar}>{scaleSelector}</div>
         </div>
       </main>
       <footer className={styles.transport}>{transport}</footer>

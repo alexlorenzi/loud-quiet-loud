@@ -19,6 +19,7 @@ import { KeySelector } from './components/key-selector/KeySelector.js';
 import { KeyInfo } from './components/key-selector/KeyInfo.js';
 import { ChordExplorer } from './components/chord-explorer/ChordExplorer.js';
 import { ProgressionPicker } from './components/progressions/ProgressionPicker.js';
+import { ProgressionChordBar } from './components/progressions/ProgressionChordBar.js';
 import { Fretboard } from './components/fretboard/Fretboard.js';
 import { FretboardLegend } from './components/fretboard/FretboardLegend.js';
 import { ScaleSelector } from './components/scales/ScaleSelector.js';
@@ -187,6 +188,7 @@ function App(): React.JSX.Element {
             <ChordExplorer />
           </>
         }
+        progressionBar={<ProgressionChordBar />}
         fretboard={
           <>
             <Fretboard

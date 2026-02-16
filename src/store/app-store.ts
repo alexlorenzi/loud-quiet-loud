@@ -60,11 +60,6 @@ interface AppState {
   announcement: Announcement | null;
   announce: (message: string) => void;
 
-  // Progression chord reveal (session-only, resets on reload)
-  revealedProgressionIds: Set<string>;
-  revealProgression: (id: string) => void;
-  toggleProgressionReveal: (id: string) => void;
-
   // Mini player expanded state
   miniPlayerExpanded: boolean;
   setMiniPlayerExpanded: (expanded: boolean) => void;
@@ -162,21 +157,6 @@ export const useAppStore = create<AppState>((set) => ({
   announcement: null,
   announce: (message) => set({ announcement: { message, timestamp: Date.now() } }),
 
-  // Progression chord reveal
-  revealedProgressionIds: new Set(),
-  revealProgression: (id) =>
-    set((state) => {
-      const next = new Set(state.revealedProgressionIds);
-      next.add(id);
-      return { revealedProgressionIds: next };
-    }),
-  toggleProgressionReveal: (id) =>
-    set((state) => {
-      const next = new Set(state.revealedProgressionIds);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return { revealedProgressionIds: next };
-    }),
 
   // Mini player
   miniPlayerExpanded: false,
