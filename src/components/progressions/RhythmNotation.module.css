@@ -1,12 +1,14 @@
 .notation {
   display: flex;
-  gap: var(--space-1);
-  padding: var(--space-2) 0;
+  gap: 1px;
+  padding: 2px 0 4px;
   align-items: center;
 }
 
-.beatGroup svg {
+.beatGroup {
   display: block;
+  width: 20px;
+  height: 38px;
 }
 
 .inactive {

@@ -44,7 +44,7 @@
   padding: var(--space-4);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: safe center;
 }
 
 .scaleSelectorBar {

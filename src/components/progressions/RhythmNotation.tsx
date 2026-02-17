@@ -157,7 +157,7 @@ interface BeatGroupSvgProps {
 function BeatGroupSvg({ group, activeSlot }: BeatGroupSvgProps): React.JSX.Element {
   if (group.kind === 'quarter-rest') {
     return (
-      <svg width="28" height="52" viewBox="0 0 28 52" className={styles.beatGroup}>
+      <svg viewBox="0 0 28 52" className={styles.beatGroup}>
         <g className={styles.inactive}>
           <QuarterRest />
         </g>
@@ -169,7 +169,7 @@ function BeatGroupSvg({ group, activeSlot }: BeatGroupSvgProps): React.JSX.Eleme
     // Quarter note centered — highlights for both eighth positions (0 or 1)
     const isActive = activeSlot === 0 || activeSlot === 1;
     return (
-      <svg width="28" height="52" viewBox="0 0 28 52" className={styles.beatGroup}>
+      <svg viewBox="0 0 28 52" className={styles.beatGroup}>
         <g className={isActive ? styles.active : styles.inactive}>
           <NoteSlot cx={14} slot={group.slot} />
         </g>
@@ -184,7 +184,7 @@ function BeatGroupSvg({ group, activeSlot }: BeatGroupSvgProps): React.JSX.Eleme
   const upActive = activeSlot === 1;
 
   return (
-    <svg width="28" height="52" viewBox="0 0 28 52" className={styles.beatGroup}>
+    <svg viewBox="0 0 28 52" className={styles.beatGroup}>
       {/* Beam connecting both stems (only if both are notes) */}
       {bothNotes && (
         <g className={downActive || upActive ? styles.active : styles.inactive}>

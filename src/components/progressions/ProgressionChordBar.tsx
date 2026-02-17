@@ -93,20 +93,32 @@ export function ProgressionChordBar(): React.JSX.Element | null {
 
   const isPlaying = playbackState === 'playing' || playbackState === 'paused';
 
-  return (
-    <div className={styles.staff}>
-      {chords.map((chord, i) => {
-        const isCurrent = isPlaying && chord.index === currentChordIndex;
-        const showChord = i === 0 || chord.displayName !== chords[i - 1].displayName;
+  // Pick measures-per-row to minimize rows while keeping them balanced
+  const n = chords.length;
+  const measuresPerRow = n <= 6 ? n : n <= 8 ? 4 : 6;
+  const rows: ProgressionChord[][] = [];
+  for (let i = 0; i < chords.length; i += measuresPerRow) {
+    rows.push(chords.slice(i, i + measuresPerRow));
+  }
 
-        return (
-          <div
-            key={chord.index}
-            className={`${styles.measure} ${isCurrent ? styles.activeMeasure : ''}`}
-          >
-            <div className={styles.chordLabel}>
-              {showChord && (
-                <>
+  return (
+    <div className={styles.staffWrap}>
+      {rows.map((row, rowIndex) => (
+        <div
+          key={rowIndex}
+          className={styles.staff}
+          style={{ gridTemplateColumns: `repeat(${row.length}, 1fr)` }}
+        >
+          {row.map((chord) => {
+            const isCurrent = isPlaying && chord.index === currentChordIndex;
+            const isLast = chord.index === chords.length - 1;
+
+            return (
+              <div
+                key={chord.index}
+                className={`${styles.measure} ${isCurrent ? styles.activeMeasure : ''} ${isLast ? styles.finalMeasure : ''}`}
+              >
+                <div className={styles.chordLabel}>
                   {chord.voicing && (
                     <div className={styles.diagram}>
                       <ChordDiagram
@@ -120,19 +132,19 @@ export function ProgressionChordBar(): React.JSX.Element | null {
                   )}
                   <span className={styles.name}>{chord.displayName}</span>
                   <span className={styles.roman}>{chord.romanNumeral}</span>
-                </>
-              )}
-            </div>
+                </div>
 
-            {beatGroups && (
-              <RhythmNotation
-                beatGroups={beatGroups}
-                activeEighth={isCurrent ? currentEighthInBar : null}
-              />
-            )}
-          </div>
-        );
-      })}
+                {beatGroups && (
+                  <RhythmNotation
+                    beatGroups={beatGroups}
+                    activeEighth={isCurrent ? currentEighthInBar : null}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ))}
     </div>
   );
 }
