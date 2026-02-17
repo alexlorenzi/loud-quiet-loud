@@ -19,7 +19,7 @@ const LEFT_MARGIN = 60;
 const TOP_MARGIN = 40;
 const BOTTOM_MARGIN = 40;
 
-const STRING_THICKNESSES = [1.5, 2, 2.5, 3, 3.5, 4];
+const STRING_THICKNESSES = [4, 3.5, 3, 2.5, 2, 1.5];
 
 /**
  * Build an index of visible (non "non-scale") note positions for
