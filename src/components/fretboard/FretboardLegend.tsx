@@ -20,6 +20,12 @@ const SCALE_ENTRIES: LegendEntry[] = [
   { type: 'scale', label: 'Scale note' },
 ];
 
+const SCALE_HIGHLIGHT_ENTRIES: LegendEntry[] = [
+  { type: 'root', label: 'Root' },
+  { type: 'scale-highlight', label: 'In scale' },
+  { type: 'scale', label: 'In key' },
+];
+
 const NOTE_COLORS: Record<NoteDisplayType, string> = {
   root: 'var(--note-root)',
   '3rd': 'var(--note-chord-tone)',
@@ -27,6 +33,7 @@ const NOTE_COLORS: Record<NoteDisplayType, string> = {
   '7th': 'var(--note-chord-tone)',
   '9th': 'var(--note-chord-tone)',
   scale: 'var(--note-scale)',
+  'scale-highlight': 'var(--note-scale-highlight)',
   'non-scale': 'var(--note-nonscale)',
 };
 
@@ -59,6 +66,9 @@ function ShapeSwatch({ type }: { type: NoteDisplayType }): React.JSX.Element {
       {type === '9th' && (
         <circle cx={cx} cy={cy} r={s} fill="none" stroke={color} strokeWidth={2} />
       )}
+      {type === 'scale-highlight' && (
+        <circle cx={cx} cy={cy} r={s} fill={color} />
+      )}
       {type === 'scale' && (
         <circle cx={cx} cy={cy} r={s} fill="none" stroke={color} strokeWidth={2} />
       )}
@@ -68,10 +78,11 @@ function ShapeSwatch({ type }: { type: NoteDisplayType }): React.JSX.Element {
 
 interface FretboardLegendProps {
   isChordActive: boolean;
+  isScaleHighlightActive: boolean;
 }
 
-export function FretboardLegend({ isChordActive }: FretboardLegendProps): React.JSX.Element {
-  const entries = isChordActive ? CHORD_ENTRIES : SCALE_ENTRIES;
+export function FretboardLegend({ isChordActive, isScaleHighlightActive }: FretboardLegendProps): React.JSX.Element {
+  const entries = isChordActive ? CHORD_ENTRIES : isScaleHighlightActive ? SCALE_HIGHLIGHT_ENTRIES : SCALE_ENTRIES;
 
   return (
     <div className={styles.legend} aria-label="Fretboard legend">

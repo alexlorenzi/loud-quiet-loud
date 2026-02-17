@@ -19,6 +19,7 @@
   --note-root: hsl(8, 90%, 52%);
   --note-chord-tone: hsl(42, 100%, 50%);
   --note-scale: hsl(215, 85%, 50%);
+  --note-scale-highlight: hsl(145, 75%, 42%);
   --note-nonscale: hsl(35, 10%, 80%);
 
   /* Function colors */
@@ -100,6 +101,7 @@ body.dark {
   --note-root: hsl(8, 90%, 60%);
   --note-chord-tone: hsl(42, 95%, 58%);
   --note-scale: hsl(215, 85%, 62%);
+  --note-scale-highlight: hsl(145, 70%, 55%);
   --note-nonscale: hsl(30, 10%, 28%);
 
   /* Function colors — brighter for dark bg */

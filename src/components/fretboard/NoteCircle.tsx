@@ -16,6 +16,7 @@ const NOTE_SHAPES: Record<NoteDisplayType, 'circle' | 'diamond' | 'square' | 'tr
   '7th': 'triangle',
   '9th': 'circle',
   scale: 'circle',
+  'scale-highlight': 'circle',
   'non-scale': 'circle',
 };
 
@@ -26,6 +27,7 @@ const NOTE_COLORS: Record<NoteDisplayType, string> = {
   '7th': 'var(--note-chord-tone)',
   '9th': 'var(--note-chord-tone)',
   scale: 'var(--note-scale)',
+  'scale-highlight': 'var(--note-scale-highlight)',
   'non-scale': 'var(--note-nonscale)',
 };
 
@@ -33,7 +35,7 @@ export function NoteCircle({ x, y, noteName, noteType }: NoteCircleProps): React
   const shape = NOTE_SHAPES[noteType];
   const color = NOTE_COLORS[noteType];
   const size = noteType === 'non-scale' ? 4 : 12;
-  const isFilled = noteType === 'root' || noteType === 'non-scale';
+  const isFilled = noteType === 'root' || noteType === 'scale-highlight' || noteType === 'non-scale';
 
   if (shape === 'circle') {
     return (
