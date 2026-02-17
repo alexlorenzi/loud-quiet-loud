@@ -54,9 +54,9 @@ interface AppState {
   selectedChordDegree: number | null;
   setSelectedChordDegree: (degree: number | null) => void;
 
-  // High contrast mode
-  highContrast: boolean;
-  toggleHighContrast: () => void;
+  // Dark mode
+  darkMode: boolean;
+  toggleDarkMode: () => void;
 
   // Screen reader announcements
   announcement: Announcement | null;
@@ -132,29 +132,44 @@ export const useAppStore = create<AppState>((set) => ({
   selectedChordDegree: null,
   setSelectedChordDegree: (degree) => set({ selectedChordDegree: degree }),
 
-  // High contrast (load from localStorage, safely, and sync DOM on init)
-  highContrast: (() => {
+  // Dark mode (load from localStorage with system preference fallback)
+  darkMode: (() => {
     if (typeof window === 'undefined') return false;
     try {
-      const stored = localStorage.getItem('lql-high-contrast') === 'true';
-      if (stored) {
-        document.body.classList.add('high-contrast');
+      // Migrate old key
+      if (localStorage.getItem('lql-high-contrast') !== null) {
+        localStorage.removeItem('lql-high-contrast');
       }
-      return stored;
+
+      const stored = localStorage.getItem('lql-theme');
+      if (stored !== null) {
+        const isDark = stored === 'dark';
+        if (isDark) {
+          document.body.classList.add('dark');
+        }
+        return isDark;
+      }
+
+      // No stored preference — respect system preference
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDark) {
+        document.body.classList.add('dark');
+      }
+      return prefersDark;
     } catch {
       return false;
     }
   })(),
-  toggleHighContrast: () =>
+  toggleDarkMode: () =>
     set((state) => {
-      const next = !state.highContrast;
-      localStorage.setItem('lql-high-contrast', String(next));
+      const next = !state.darkMode;
+      localStorage.setItem('lql-theme', next ? 'dark' : 'light');
       if (next) {
-        document.body.classList.add('high-contrast');
+        document.body.classList.add('dark');
       } else {
-        document.body.classList.remove('high-contrast');
+        document.body.classList.remove('dark');
       }
-      return { highContrast: next };
+      return { darkMode: next };
     }),
 
   // Screen reader announcements

@@ -5,12 +5,14 @@
   gap: var(--space-3);
   padding: var(--space-3) var(--space-4);
   background: var(--accent-primary);
-  color: var(--bg-primary);
+  color: var(--accent-text);
   cursor: pointer;
   user-select: none;
   font-size: 14px;
   font-weight: 600;
-  border-bottom: 3px solid #000000;
+  border-bottom: var(--border-w) solid var(--border-default);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .banner:hover {

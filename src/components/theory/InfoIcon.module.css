@@ -5,7 +5,7 @@
   width: 18px;
   height: 18px;
   border-radius: var(--radius-full);
-  border: 2px solid var(--border-default);
+  border: var(--border-w) solid var(--border-default);
   background: transparent;
   color: var(--text-tertiary);
   font-size: 11px;
@@ -14,11 +14,19 @@
   line-height: 1;
   cursor: pointer;
   flex-shrink: 0;
+  transition: transform 0.1s, box-shadow 0.1s;
 }
 
 .infoButton:hover {
   color: var(--accent-primary);
   border-color: var(--accent-primary);
+  transform: translate(-2px, -2px);
+  box-shadow: 1px 1px 0 var(--accent-primary);
+}
+
+.infoButton:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
 }
 
 .infoButton:focus-visible {

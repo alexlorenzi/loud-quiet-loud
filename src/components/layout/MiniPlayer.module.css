@@ -11,7 +11,7 @@
     right: 0;
     height: 56px;
     background: var(--bg-elevated);
-    border-top: 2px solid var(--border-subtle);
+    border-top: var(--border-w) solid var(--border-default);
     z-index: 100;
     align-items: center;
     padding: 0 var(--space-3);
@@ -28,16 +28,25 @@
   min-width: 44px;
   min-height: 44px;
   background: var(--bg-surface);
-  border: 2px solid var(--border-default);
+  border: var(--border-w) solid var(--border-default);
   border-radius: var(--radius-full);
   color: var(--text-primary);
   font-size: 16px;
   cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.1s, box-shadow 0.1s;
 }
 
 .playButton:hover {
   background: var(--bg-hover);
   border-color: var(--accent-primary);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-md);
+}
+
+.playButton:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
 }
 
 .playButton:focus-visible {
@@ -48,7 +57,7 @@
 .playButton.playing {
   background: var(--accent-primary);
   border-color: var(--accent-primary);
-  color: var(--bg-primary);
+  color: var(--accent-text);
 }
 
 .info {
@@ -103,6 +112,7 @@
 }
 
 .overlayTitle {
+  font-family: var(--font-heading);
   font-size: 18px;
   font-weight: 700;
   color: var(--text-primary);
@@ -117,15 +127,24 @@
   min-width: 44px;
   min-height: 44px;
   background: var(--bg-surface);
-  border: 2px solid var(--border-default);
+  border: var(--border-w) solid var(--border-default);
   border-radius: var(--radius-full);
   color: var(--text-primary);
   font-size: 18px;
   cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.1s, box-shadow 0.1s;
 }
 
 .closeButton:hover {
   background: var(--bg-hover);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-md);
+}
+
+.closeButton:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
 }
 
 .closeButton:focus-visible {

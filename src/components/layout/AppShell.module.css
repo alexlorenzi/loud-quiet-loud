@@ -8,7 +8,7 @@
 
 .header {
   grid-row: 1;
-  border-bottom: 2px solid var(--border-subtle);
+  border-bottom: var(--border-w) solid var(--border-default);
   z-index: 100;
 }
 
@@ -24,7 +24,7 @@
   grid-column: 1;
   grid-row: 1;
   overflow-y: auto;
-  border-right: 2px solid var(--border-subtle);
+  border-right: var(--border-w) solid var(--border-default);
   background: var(--bg-surface);
 }
 
@@ -54,7 +54,7 @@
 
 .transport {
   grid-row: 3;
-  border-top: 3px solid var(--border-default);
+  border-top: var(--border-w) solid var(--border-default);
   background: var(--bg-elevated);
   z-index: 100;
 }
@@ -71,7 +71,7 @@
   background: var(--bg-surface);
   overflow-y: auto;
   max-height: 40vh;
-  border-bottom: 2px solid var(--border-subtle);
+  border-bottom: var(--border-w) solid var(--border-default);
 }
 
 .tabletFretboard {
@@ -83,7 +83,7 @@
 
 /* ===== Mobile layout (< 768px) ===== */
 .headerMobile {
-  border-bottom: 2px solid var(--border-subtle);
+  border-bottom: var(--border-w) solid var(--border-default);
   z-index: 100;
 }
 

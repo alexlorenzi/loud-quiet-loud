@@ -8,26 +8,37 @@
   width: 96px;
   min-height: 80px;
   background: var(--bg-elevated);
-  border: 2px solid var(--border-default);
+  border: var(--border-w) solid var(--border-default);
   border-radius: var(--radius-md);
   padding: var(--space-2);
   cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.1s, box-shadow 0.1s;
 }
 
 .card:hover {
   background: var(--bg-hover);
   border-color: var(--accent-primary);
-  box-shadow: var(--shadow-md);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
 }
 
 .card.selected {
   border-color: var(--accent-primary);
-  border-width: 2px;
+  background: var(--accent-primary);
+  color: var(--accent-text);
 }
 
 .card.nowPlaying {
   border-color: var(--now-playing);
-  border-width: 3px;
+  background: var(--accent-primary);
+  color: var(--accent-text);
+  box-shadow: var(--shadow-md);
 }
 
 .functionBorder {
@@ -51,14 +62,16 @@
 }
 
 .romanNumeral {
-  font-family: var(--font-mono);
+  font-family: var(--font-heading);
   font-size: 16px;
-  font-weight: 700;
-  color: var(--text-primary);
+  font-weight: 900;
+  color: inherit;
 }
 
 .chordName {
   font-family: var(--font-mono);
   font-size: 12px;
-  color: var(--text-secondary);
+  font-weight: 700;
+  color: inherit;
+  opacity: 0.7;
 }
