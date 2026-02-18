@@ -1,8 +1,8 @@
 import type React from 'react';
 import { useMemo } from 'react';
 import { useAppStore } from '../../store/app-store.js';
-import { PRESET_PROGRESSIONS } from '../../constants/progressions.js';
 import { getStrumPatternForGenre } from '../../constants/strum-patterns.js';
+import { resolveActiveProgression } from '../../engine/progression-resolver.js';
 import { generateDiatonicChords } from '../../engine/chord-generator.js';
 import { nameToPitchClass, pitchClassToName } from '../../engine/note-utils.js';
 import { computeBeatGroups } from '../../engine/strum-notation.js';
@@ -42,6 +42,7 @@ interface ProgressionChord {
 export function ProgressionChordBar(): React.JSX.Element | null {
   const {
     selectedProgressionId,
+    activeLoop,
     keyRoot,
     mode,
     currentChordIndex,
@@ -49,16 +50,18 @@ export function ProgressionChordBar(): React.JSX.Element | null {
     playbackState,
   } = useAppStore();
 
-  const chords = useMemo((): ProgressionChord[] => {
-    if (!selectedProgressionId) return [];
+  const resolved = useMemo(
+    () => resolveActiveProgression(selectedProgressionId, activeLoop),
+    [selectedProgressionId, activeLoop],
+  );
 
-    const preset = PRESET_PROGRESSIONS.find((p) => p.id === selectedProgressionId);
-    if (!preset) return [];
+  const chords = useMemo((): ProgressionChord[] => {
+    if (!resolved) return [];
 
     const rootPitchClass = nameToPitchClass(keyRoot);
     const diatonicChords = generateDiatonicChords(rootPitchClass, mode);
 
-    return preset.pattern.map((patternChord, index) => {
+    return resolved.pattern.map((patternChord, index) => {
       const diatonic = diatonicChords.find((c) => c.degree === patternChord.degree);
       let displayName = patternChord.romanNumeral;
       let voicing: ChordPosition | null = null;
@@ -80,14 +83,13 @@ export function ProgressionChordBar(): React.JSX.Element | null {
         voicing,
       };
     });
-  }, [selectedProgressionId, keyRoot, mode]);
+  }, [resolved, keyRoot, mode]);
 
   const beatGroups = useMemo(() => {
-    if (!selectedProgressionId) return null;
-    const preset = PRESET_PROGRESSIONS.find((p) => p.id === selectedProgressionId);
-    const strumPattern = getStrumPatternForGenre(preset?.genre ?? '');
+    if (!resolved) return null;
+    const strumPattern = getStrumPatternForGenre(resolved.genre);
     return computeBeatGroups(strumPattern);
-  }, [selectedProgressionId]);
+  }, [resolved]);
 
   if (chords.length === 0) return null;
 

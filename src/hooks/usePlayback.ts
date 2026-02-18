@@ -1,13 +1,14 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useAppStore } from '../store/app-store.js';
 import { getAudioEngine } from '../audio/audio-engine.js';
 import { ensureAudioContext } from '../audio/context-manager.js';
-import { PRESET_PROGRESSIONS } from '../constants/progressions.js';
 import { getStrumPatternForGenre } from '../constants/strum-patterns.js';
 import { generateDiatonicChords } from '../engine/chord-generator.js';
 import { nameToPitchClass, pitchClassToName } from '../engine/note-utils.js';
 import { getDefaultVoicing, VOICING_NOTE_NAMES } from '../data/voicing-lookup.js';
+import { resolveActiveProgression } from '../engine/progression-resolver.js';
 import type { ScheduledProgression, ScheduledChord } from '../types/audio.js';
+import type { ResolvedProgression } from '../types/loop.js';
 import type { ChordQuality, NoteName } from '../types/music.js';
 
 /** Qualities that should fall back to a minor voicing when no exact match exists. */
@@ -16,27 +17,22 @@ const MINOR_FAMILY_QUALITIES = new Set<ChordQuality>([
 ]);
 
 /**
- * Build a ScheduledProgression from a preset progression and current key.
+ * Build a ScheduledProgression from a resolved progression and current key.
  */
 function buildScheduledProgression(
-  progressionId: string,
+  resolved: ResolvedProgression,
   keyRoot: NoteName,
   mode: 'major' | 'minor'
 ): ScheduledProgression | null {
-  const preset = PRESET_PROGRESSIONS.find((p) => p.id === progressionId);
-  if (!preset) return null;
-
   const rootPitchClass = nameToPitchClass(keyRoot);
   const diatonicChords = generateDiatonicChords(rootPitchClass, mode);
 
   const scheduledChords: ScheduledChord[] = [];
 
-  for (const patternChord of preset.pattern) {
+  for (const patternChord of resolved.pattern) {
     const diatonic = diatonicChords.find((c) => c.degree === patternChord.degree);
     if (!diatonic) continue;
 
-    // Use the quality override from the progression pattern if specified,
-    // otherwise use the diatonic quality
     const quality = patternChord.quality ?? diatonic.quality;
     const noteName = VOICING_NOTE_NAMES[diatonic.root] ?? 'C';
 
@@ -67,7 +63,7 @@ function buildScheduledProgression(
 
     scheduledChords.push({
       voicing,
-      durationBeats: preset.beatsPerChord,
+      durationBeats: resolved.beatsPerChord,
     });
   }
 
@@ -76,7 +72,7 @@ function buildScheduledProgression(
   return {
     chords: scheduledChords,
     totalBeats,
-    beatsPerChord: preset.beatsPerChord,
+    beatsPerChord: resolved.beatsPerChord,
   };
 }
 
@@ -101,20 +97,19 @@ const QUALITY_DISPLAY: Record<ChordQuality, string> = {
 };
 
 /**
- * Get the display name for a chord in the current progression at a given index.
+ * Get the display name for a chord in the resolved progression at a given index.
  */
 function getChordDisplayName(
-  progressionId: string,
+  resolved: ResolvedProgression,
   chordIndex: number,
   keyRoot: NoteName,
   mode: 'major' | 'minor'
 ): string {
-  const preset = PRESET_PROGRESSIONS.find((p) => p.id === progressionId);
-  if (!preset || chordIndex < 0 || chordIndex >= preset.pattern.length) return '';
+  if (chordIndex < 0 || chordIndex >= resolved.pattern.length) return '';
 
   const rootPitchClass = nameToPitchClass(keyRoot);
   const diatonicChords = generateDiatonicChords(rootPitchClass, mode);
-  const patternChord = preset.pattern[chordIndex];
+  const patternChord = resolved.pattern[chordIndex];
   const diatonic = diatonicChords.find((c) => c.degree === patternChord.degree);
 
   if (!diatonic) return patternChord.romanNumeral;
@@ -138,6 +133,7 @@ export function usePlayback(): {
 } {
   const {
     selectedProgressionId,
+    activeLoop,
     keyRoot,
     mode,
     playbackState,
@@ -151,6 +147,11 @@ export function usePlayback(): {
     setCurrentEighthInBar,
     setAudioContextReady,
   } = useAppStore();
+
+  const resolved = useMemo(
+    () => resolveActiveProgression(selectedProgressionId, activeLoop),
+    [selectedProgressionId, activeLoop],
+  );
 
   const isScheduledRef = useRef(false);
   const isSchedulingRef = useRef(false);
@@ -180,12 +181,12 @@ export function usePlayback(): {
   }, [metronomeEnabled]);
 
   // Get current chord display name
-  const currentChordName = selectedProgressionId
-    ? getChordDisplayName(selectedProgressionId, currentChordIndex, keyRoot, mode)
+  const currentChordName = resolved
+    ? getChordDisplayName(resolved, currentChordIndex, keyRoot, mode)
     : '';
 
   const play = useCallback(async () => {
-    if (!selectedProgressionId || isSchedulingRef.current) return;
+    if (!resolved || isSchedulingRef.current) return;
 
     isSchedulingRef.current = true;
     try {
@@ -204,7 +205,7 @@ export function usePlayback(): {
     }
 
     // Build the scheduled progression
-    const scheduled = buildScheduledProgression(selectedProgressionId, keyRoot, mode);
+    const scheduled = buildScheduledProgression(resolved, keyRoot, mode);
     if (!scheduled) return;
 
     // Apply current settings
@@ -218,8 +219,9 @@ export function usePlayback(): {
     setCurrentChordIndex(0);
 
     // Resolve the strum pattern from the progression's genre
-    const preset = PRESET_PROGRESSIONS.find((p) => p.id === selectedProgressionId);
-    const strumPattern = getStrumPatternForGenre(preset?.genre ?? '');
+    const strumPattern = getStrumPatternForGenre(resolved.genre);
+
+    isScheduledRef.current = true;
 
     // Schedule the progression
     engine.transport.scheduleProgression(
@@ -242,15 +244,13 @@ export function usePlayback(): {
       engine.metronome
     );
 
-    isScheduledRef.current = true;
-
     // Start transport
     engine.transport.resume();
     } finally {
       isSchedulingRef.current = false;
     }
   }, [
-    selectedProgressionId,
+    resolved,
     keyRoot,
     mode,
     playbackState,
@@ -279,7 +279,7 @@ export function usePlayback(): {
     setCurrentEighthInBar(0);
   }, [setPlaybackState, setCurrentChordIndex, setCurrentEighthInBar]);
 
-  // Stop playback when progression or key changes
+  // Stop playback when progression, loop, or key changes
   useEffect(() => {
     if (isScheduledRef.current) {
       const engine = getAudioEngine();
@@ -289,7 +289,7 @@ export function usePlayback(): {
       setCurrentChordIndex(0);
       setCurrentEighthInBar(0);
     }
-  }, [selectedProgressionId, keyRoot, mode, setPlaybackState, setCurrentChordIndex, setCurrentEighthInBar]);
+  }, [selectedProgressionId, activeLoop, keyRoot, mode, setPlaybackState, setCurrentChordIndex, setCurrentEighthInBar]);
 
   return {
     play,

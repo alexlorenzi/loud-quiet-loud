@@ -11,6 +11,7 @@ export function PlaybackControls(): React.JSX.Element {
     drumsMuted,
     metronomeEnabled,
     selectedProgressionId,
+    activeLoop,
     setTempo,
     setMasterVolume,
     toggleDrumsMuted,
@@ -31,7 +32,7 @@ export function PlaybackControls(): React.JSX.Element {
     stop();
   }
 
-  const isDisabled = !selectedProgressionId;
+  const isDisabled = !selectedProgressionId && (!activeLoop || activeLoop.chords.length === 0);
   const isActive = playbackState === 'playing' || playbackState === 'count-in';
 
   return (

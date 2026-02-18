@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import type { NoteName, Mode } from '../types/music.js';
 import type { PlaybackState } from '../types/audio.js';
 import type { MobileTab, Announcement } from '../types/ui.js';
+import type { CustomLoop } from '../types/loop.js';
 
 interface AppState {
   // Key selection
@@ -12,6 +13,11 @@ interface AppState {
   // Progression selection
   selectedProgressionId: string | null;
   setProgression: (id: string | null) => void;
+
+  // Custom loop
+  activeLoop: CustomLoop | null;
+  setActiveLoop: (loop: CustomLoop | null) => void;
+  clearLoop: () => void;
 
   // Scale shape visualization
   selectedScaleShapeId: string;
@@ -83,7 +89,14 @@ export const useAppStore = create<AppState>((set) => ({
   // No progression selected initially
   selectedProgressionId: null,
   setProgression: (id) =>
-    set({ selectedProgressionId: id, playbackState: 'stopped', currentChordIndex: 0, currentEighthInBar: 0 }),
+    set({ selectedProgressionId: id, activeLoop: null, playbackState: 'stopped', currentChordIndex: 0, currentEighthInBar: 0 }),
+
+  // Custom loop
+  activeLoop: null,
+  setActiveLoop: (loop) =>
+    set({ activeLoop: loop, selectedProgressionId: null, playbackState: 'stopped', currentChordIndex: 0, currentEighthInBar: 0 }),
+  clearLoop: () =>
+    set({ activeLoop: null, playbackState: 'stopped', currentChordIndex: 0, currentEighthInBar: 0 }),
 
   // Default scale shape: Minor Pentatonic Box 1
   selectedScaleShapeId: 'pentatonic-minor-box1',

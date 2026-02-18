@@ -1,13 +1,21 @@
 import type { PitchClass, NoteName, Mode, Scale, ScaleType, ScaleFormula, KeySignature } from '../types/music.js';
 import { pitchClassToName, nameToPitchClass, getAccidentalPreference } from './note-utils.js';
 
+const SHARP_PREFERRED_SCALES = new Set<ScaleType>([
+  'major', 'pentatonic-major', 'blues', 'mixolydian', 'lydian',
+]);
+
 export const SCALE_FORMULAS: Record<ScaleType, ScaleFormula> = {
   'major': [0, 2, 4, 5, 7, 9, 11],
   'natural-minor': [0, 2, 3, 5, 7, 8, 10],
   'harmonic-minor': [0, 2, 3, 5, 7, 8, 11],
   'pentatonic-major': [0, 2, 4, 7, 9],
   'pentatonic-minor': [0, 3, 5, 7, 10],
-  'blues': [0, 3, 5, 6, 7, 10]
+  'blues': [0, 3, 5, 6, 7, 10],
+  'dorian': [0, 2, 3, 5, 7, 9, 10],
+  'mixolydian': [0, 2, 4, 5, 7, 9, 10],
+  'phrygian': [0, 1, 3, 5, 7, 8, 10],
+  'lydian': [0, 2, 4, 6, 7, 9, 11],
 };
 
 const CIRCLE_OF_FIFTHS_SHARPS: NoteName[] = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'C#'];
@@ -20,7 +28,7 @@ export function computeScale(root: PitchClass, type: ScaleType): Scale {
   const formula = SCALE_FORMULAS[type];
   const degrees = formula.map(interval => ((root + interval) % 12) as PitchClass);
 
-  const preferSharps = type.includes('major') || type === 'blues';
+  const preferSharps = SHARP_PREFERRED_SCALES.has(type);
   const noteNames = degrees.map(pc => pitchClassToName(pc, preferSharps));
 
   return {

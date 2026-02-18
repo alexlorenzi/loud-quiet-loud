@@ -36,7 +36,7 @@ const INTERVAL_TO_NAME: Record<number, IntervalName> = {
   11: 'major-7th'
 };
 
-const CHORD_INTERVALS: Record<ChordQuality, number[]> = {
+export const CHORD_INTERVALS: Record<ChordQuality, number[]> = {
   'major': [0, 4, 7],
   'minor': [0, 3, 7],
   'dim': [0, 3, 6],

@@ -20,7 +20,11 @@ export type ScaleType =
   | 'harmonic-minor'
   | 'pentatonic-major'
   | 'pentatonic-minor'
-  | 'blues';
+  | 'blues'
+  | 'dorian'
+  | 'mixolydian'
+  | 'phrygian'
+  | 'lydian';
 
 /** Scale formula as array of semitone intervals from root */
 export type ScaleFormula = readonly number[];

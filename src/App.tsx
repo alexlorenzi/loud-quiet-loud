@@ -8,7 +8,7 @@ import { getChordTones, classifyNoteAgainstChord } from './engine/chord-tones.js
 import { nameToPitchClass, getAccidentalPreference } from './engine/note-utils.js';
 import { getAudioEngine } from './audio/audio-engine.js';
 import { ensureAudioContext } from './audio/context-manager.js';
-import { PRESET_PROGRESSIONS } from './constants/progressions.js';
+import { resolveActiveProgression } from './engine/progression-resolver.js';
 import { SCALE_SHAPE_POSITIONS } from './constants/scales.js';
 import type { FretPosition, PitchClass } from './types/music.js';
 import type { NoteDisplayType } from './types/ui.js';
@@ -20,6 +20,7 @@ import { KeyInfo } from './components/key-selector/KeyInfo.js';
 import { ChordExplorer } from './components/chord-explorer/ChordExplorer.js';
 import { ProgressionPicker } from './components/progressions/ProgressionPicker.js';
 import { ProgressionChordBar } from './components/progressions/ProgressionChordBar.js';
+import { LoopBuilder } from './components/loop-builder/LoopBuilder.js';
 import { Fretboard } from './components/fretboard/Fretboard.js';
 import { FretboardLegend } from './components/fretboard/FretboardLegend.js';
 import { ScaleSelector } from './components/scales/ScaleSelector.js';
@@ -31,6 +32,7 @@ function App(): React.JSX.Element {
     keyRoot,
     mode,
     selectedProgressionId,
+    activeLoop,
     selectedScaleShapeId,
     scaleShapeVisible,
     currentChordIndex,
@@ -65,6 +67,12 @@ function App(): React.JSX.Element {
     window.addEventListener('touchstart', tryResume);
     return cleanup;
   }, [audioContextReady, setAudioContextReady]);
+
+  // Resolve active playback source (preset or custom loop)
+  const resolvedProgression = useMemo(
+    () => resolveActiveProgression(selectedProgressionId, activeLoop),
+    [selectedProgressionId, activeLoop],
+  );
 
   // Compute scale for the current key
   const scale = useMemo(() => {
@@ -103,7 +111,7 @@ function App(): React.JSX.Element {
 
   // Get current chord tones for highlighting during playback
   const currentChordTones: ChordToneInfo[] | null = useMemo(() => {
-    if (!selectedProgressionId || currentChordIndex < 0) {
+    if (!resolvedProgression || currentChordIndex < 0) {
       return null;
     }
 
@@ -112,18 +120,17 @@ function App(): React.JSX.Element {
       return null;
     }
 
-    const preset = PRESET_PROGRESSIONS.find((p) => p.id === selectedProgressionId);
-    if (!preset || currentChordIndex >= preset.pattern.length) {
+    if (currentChordIndex >= resolvedProgression.pattern.length) {
       return null;
     }
 
-    const patternChord = preset.pattern[currentChordIndex];
+    const patternChord = resolvedProgression.pattern[currentChordIndex];
     const diatonic = diatonicChords.find((c) => c.degree === patternChord.degree);
     if (!diatonic) return null;
 
     const quality = patternChord.quality ?? diatonic.quality;
     return getChordTones(diatonic.root, quality);
-  }, [selectedProgressionId, currentChordIndex, playbackState, diatonicChords]);
+  }, [resolvedProgression, currentChordIndex, playbackState, diatonicChords]);
 
   // Classify each note on the fretboard
   function classifyNote(pos: FretPosition): NoteDisplayType {
@@ -186,6 +193,7 @@ function App(): React.JSX.Element {
         sidebar={
           <>
             <ProgressionPicker />
+            <LoopBuilder />
             <ChordExplorer />
           </>
         }
