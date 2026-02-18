@@ -138,7 +138,6 @@ export function LoopBuilder(): React.JSX.Element {
   return (
     <div className={styles.builder}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Loop Builder</h2>
         <span className={styles.count}>{draftChords.length}/{MAX_CHORDS}</span>
       </div>
 

@@ -5,16 +5,6 @@
   padding: var(--space-4);
 }
 
-.title {
-  font-family: var(--font-heading);
-  font-size: 20px;
-  font-weight: 900;
-  color: var(--text-primary);
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  margin-bottom: var(--space-2);
-}
-
 .functionGroup {
   display: flex;
   flex-direction: column;

@@ -1,0 +1,56 @@
+.accordion {
+  border-bottom: var(--border-w) solid var(--border-default);
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-surface);
+  border: none;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.trigger:hover {
+  background: var(--bg-hover);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.chevron {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid var(--text-secondary);
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+
+.chevronCollapsed {
+  transform: rotate(-90deg);
+}
+
+.body {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.25s ease-out;
+}
+
+.bodyCollapsed {
+  grid-template-rows: 0fr;
+}
+
+.bodyInner {
+  overflow: hidden;
+}

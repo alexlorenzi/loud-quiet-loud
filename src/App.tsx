@@ -25,6 +25,7 @@ import { Fretboard } from './components/fretboard/Fretboard.js';
 import { FretboardLegend } from './components/fretboard/FretboardLegend.js';
 import { ScaleSelector } from './components/scales/ScaleSelector.js';
 import { PlaybackControls } from './components/playback/PlaybackControls.js';
+import { SidebarAccordion } from './components/shared/SidebarAccordion.js';
 
 
 function App(): React.JSX.Element {
@@ -192,9 +193,15 @@ function App(): React.JSX.Element {
         header={<Header keySelector={<KeySelector />} keyInfo={<KeyInfo />} />}
         sidebar={
           <>
-            <ProgressionPicker />
-            <LoopBuilder />
-            <ChordExplorer />
+            <SidebarAccordion title="Progressions" defaultOpen>
+              <ProgressionPicker />
+            </SidebarAccordion>
+            <SidebarAccordion title="Loop Builder" defaultOpen={false}>
+              <LoopBuilder />
+            </SidebarAccordion>
+            <SidebarAccordion title="Chord Explorer" defaultOpen={false}>
+              <ChordExplorer />
+            </SidebarAccordion>
           </>
         }
         progressionBar={<ProgressionChordBar />}

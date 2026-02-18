@@ -74,8 +74,6 @@ export function ChordExplorer(): React.JSX.Element {
 
   return (
     <div className={styles.explorer}>
-      <h2 className={styles.title}>Chord Explorer</h2>
-
       {(['tonic', 'subdominant', 'dominant'] as ChordFunction[]).map((func) => {
         const chords = chordsByFunction[func];
         if (chords.length === 0) return null;

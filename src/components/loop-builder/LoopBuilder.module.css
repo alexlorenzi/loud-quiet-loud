@@ -3,22 +3,12 @@
   flex-direction: column;
   gap: var(--space-3);
   padding: var(--space-4);
-  border-bottom: var(--border-w) solid var(--border-default);
 }
 
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-
-.title {
-  font-family: var(--font-heading);
-  font-size: 20px;
-  font-weight: 900;
-  color: var(--text-primary);
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
+  justify-content: flex-end;
 }
 
 .count {

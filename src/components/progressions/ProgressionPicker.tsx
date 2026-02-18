@@ -41,8 +41,6 @@ export function ProgressionPicker(): React.JSX.Element {
 
   return (
     <div className={styles.picker}>
-      <h2 className={styles.title}>Progressions</h2>
-
       <div className={styles.genreTabs}>
         {genres.map((genre) => (
           <button
