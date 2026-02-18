@@ -20,13 +20,18 @@ const SCALE_ENTRIES: LegendEntry[] = [
   { type: 'scale', label: 'Scale note' },
 ];
 
-const SCALE_HIGHLIGHT_ENTRIES: LegendEntry[] = [
-  { type: 'root', label: 'Root' },
-  { type: 'scale-highlight', label: 'In scale' },
-  { type: 'scale', label: 'In key' },
+const BOX_ENTRIES: LegendEntry[] = [
+  { type: 'box-root', label: 'Root' },
+  { type: 'box-scale', label: 'Scale' },
 ];
 
-const NOTE_COLORS: Record<NoteDisplayType, string> = {
+const BOX_BLUES_ENTRIES: LegendEntry[] = [
+  { type: 'box-root', label: 'Root' },
+  { type: 'box-scale', label: 'Scale' },
+  { type: 'box-blue-note', label: 'Blue note (b5)' },
+];
+
+const NOTE_COLORS: Partial<Record<NoteDisplayType, string>> = {
   root: 'var(--note-root)',
   '3rd': 'var(--note-chord-tone)',
   '5th': 'var(--note-chord-tone)',
@@ -34,11 +39,14 @@ const NOTE_COLORS: Record<NoteDisplayType, string> = {
   '9th': 'var(--note-chord-tone)',
   scale: 'var(--note-scale)',
   'scale-highlight': 'var(--note-scale-highlight)',
+  'box-root': 'var(--note-root)',
+  'box-scale': 'var(--text-primary)',
+  'box-blue-note': 'var(--note-blue-note)',
   'non-scale': 'var(--note-nonscale)',
 };
 
 function ShapeSwatch({ type }: { type: NoteDisplayType }): React.JSX.Element {
-  const color = NOTE_COLORS[type];
+  const color = NOTE_COLORS[type] ?? 'var(--text-secondary)';
   const s = 8; // half-size for shapes
   const cx = 10;
   const cy = 10;
@@ -72,17 +80,28 @@ function ShapeSwatch({ type }: { type: NoteDisplayType }): React.JSX.Element {
       {type === 'scale' && (
         <circle cx={cx} cy={cy} r={s} fill="none" stroke={color} strokeWidth={2} />
       )}
+      {(type === 'box-root' || type === 'box-scale' || type === 'box-blue-note') && (
+        <circle cx={cx} cy={cy} r={s} fill={color} />
+      )}
     </svg>
   );
 }
 
 interface FretboardLegendProps {
   isChordActive: boolean;
-  isScaleHighlightActive: boolean;
+  isBoxActive: boolean;
+  activeShapeScaleType?: string;
 }
 
-export function FretboardLegend({ isChordActive, isScaleHighlightActive }: FretboardLegendProps): React.JSX.Element {
-  const entries = isChordActive ? CHORD_ENTRIES : isScaleHighlightActive ? SCALE_HIGHLIGHT_ENTRIES : SCALE_ENTRIES;
+export function FretboardLegend({ isChordActive, isBoxActive, activeShapeScaleType }: FretboardLegendProps): React.JSX.Element {
+  let entries: LegendEntry[];
+  if (isChordActive) {
+    entries = CHORD_ENTRIES;
+  } else if (isBoxActive) {
+    entries = activeShapeScaleType === 'blues' ? BOX_BLUES_ENTRIES : BOX_ENTRIES;
+  } else {
+    entries = SCALE_ENTRIES;
+  }
 
   return (
     <div className={styles.legend} aria-label="Fretboard legend">

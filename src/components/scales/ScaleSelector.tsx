@@ -6,8 +6,8 @@ import styles from './ScaleSelector.module.css';
 const SHORT_NAMES: Record<string, string> = {
   'pentatonic-minor-box1': 'Min Pent',
   'pentatonic-major-box1': 'Maj Pent',
-  'major-3nps': 'Maj 3NPS',
-  'natural-minor-3nps': 'Min 3NPS',
+  'blues-box1': 'Blues',
+  'major-box1': 'Major',
 };
 
 export function ScaleSelector(): React.JSX.Element {

@@ -41,7 +41,7 @@
 
 .genreChip.active {
   background: var(--bg-hover);
-  border-color: var(--accent-primary);
+  border-color: var(--border-default);
   color: var(--text-primary);
 }
 

@@ -19,7 +19,7 @@
 
 .infoButton:hover {
   color: var(--accent-primary);
-  border-color: var(--accent-primary);
+  border-color: var(--border-default);
   transform: translate(-2px, -2px);
   box-shadow: 1px 1px 0 var(--accent-primary);
 }

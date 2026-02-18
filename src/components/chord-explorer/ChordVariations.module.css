@@ -34,7 +34,7 @@
 
 .pill:hover {
   background: var(--bg-hover);
-  border-color: var(--accent-primary);
+  border-color: var(--border-default);
   color: var(--text-primary);
   transform: translate(-2px, -2px);
   box-shadow: var(--shadow-md);
@@ -47,7 +47,7 @@
 
 .pill.selected {
   background: var(--accent-primary);
-  border-color: var(--accent-primary);
+  border-color: var(--border-default);
   color: var(--accent-text);
   font-weight: 600;
 }

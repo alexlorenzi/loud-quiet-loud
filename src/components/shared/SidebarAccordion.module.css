@@ -1,5 +1,5 @@
 .accordion {
-  border-bottom: var(--border-w) solid var(--border-default);
+  border-top: var(--border-w) solid var(--border-default);
   display: flex;
   flex-direction: column;
   min-height: 0;

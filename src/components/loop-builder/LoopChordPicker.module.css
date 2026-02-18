@@ -22,7 +22,7 @@
 
 .chordBtn:hover {
   background: var(--bg-hover);
-  border-color: var(--accent-primary);
+  border-color: var(--border-default);
   transform: translate(-2px, -2px);
   box-shadow: var(--shadow-md);
 }

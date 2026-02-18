@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useRef, useCallback } from 'react';
 import type { FretPosition } from '../../types/music.js';
-import type { NoteDisplayType } from '../../types/ui.js';
+import type { NoteDisplayType, BoxNoteMap } from '../../types/ui.js';
 import { FretMarkers } from './FretMarkers.js';
 import { NoteCircle } from './NoteCircle.js';
 import styles from './Fretboard.module.css';
@@ -9,6 +9,7 @@ import styles from './Fretboard.module.css';
 interface FretboardProps {
   fretboard: FretPosition[][];
   noteClassifier: (pos: FretPosition) => NoteDisplayType;
+  boxNotes?: BoxNoteMap | null;
   onNoteClick?: (pos: FretPosition) => void;
 }
 
@@ -22,18 +23,19 @@ const BOTTOM_MARGIN = 40;
 const STRING_THICKNESSES = [4, 3.5, 3, 2.5, 2, 1.5];
 
 /**
- * Build an index of visible (non "non-scale") note positions for
- * roving-tabindex keyboard navigation.  Returns a 2D grid
- * [stringIndex][fret] => boolean indicating whether a note is visible.
+ * Build an index of visible note positions for roving-tabindex keyboard navigation.
+ * Returns a 2D grid [stringIndex][fret] => boolean.
+ * When boxNotes is set, only box positions are visible.
  */
 function buildVisibleNoteGrid(
   fretboard: FretPosition[][],
   noteClassifier: (pos: FretPosition) => NoteDisplayType,
+  boxNotes: BoxNoteMap | null | undefined,
 ): boolean[][] {
-  return fretboard.map((stringPositions) =>
+  return fretboard.map((stringPositions, stringIndex) =>
     stringPositions.slice(0, FRETS_TO_SHOW + 1).map((pos) => {
-      const noteType = noteClassifier(pos);
-      return noteType !== 'non-scale';
+      if (boxNotes) return boxNotes.has(`${stringIndex}-${pos.fret}`);
+      return noteClassifier(pos) !== 'non-scale';
     }),
   );
 }
@@ -41,6 +43,7 @@ function buildVisibleNoteGrid(
 export function Fretboard({
   fretboard,
   noteClassifier,
+  boxNotes,
   onNoteClick,
 }: FretboardProps): React.JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -63,7 +66,7 @@ export function Fretboard({
    */
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent, stringIndex: number, fret: number) => {
-      const visibleGrid = buildVisibleNoteGrid(fretboard, noteClassifier);
+      const visibleGrid = buildVisibleNoteGrid(fretboard, noteClassifier, boxNotes);
 
       function focusNote(si: number, fi: number): void {
         const el = containerRef.current?.querySelector<SVGGElement>(
@@ -124,7 +127,7 @@ export function Fretboard({
         }
       }
     },
-    [fretboard, noteClassifier, onNoteClick],
+    [fretboard, noteClassifier, boxNotes, onNoteClick],
   );
 
   // Precompute the first visible note position for roving tabindex.
@@ -133,8 +136,10 @@ export function Fretboard({
   for (let si = 0; si < fretboard.length && !firstVisibleNote; si++) {
     const stringPositions = fretboard[si];
     for (let fi = 0; fi <= FRETS_TO_SHOW && fi < stringPositions.length; fi++) {
-      const noteType = noteClassifier(stringPositions[fi]);
-      if (noteType !== 'non-scale') {
+      const visible = boxNotes
+        ? boxNotes.has(`${si}-${fi}`)
+        : noteClassifier(stringPositions[fi]) !== 'non-scale';
+      if (visible) {
         firstVisibleNote = { string: si, fret: fi };
         break;
       }
@@ -190,8 +195,11 @@ export function Fretboard({
         {/* Notes */}
         {fretboard.map((stringPositions, stringIndex) =>
           stringPositions.slice(0, FRETS_TO_SHOW + 1).map((pos) => {
-            const noteType = noteClassifier(pos);
-            if (noteType === 'non-scale') return null;
+            // Box mode: look up by exact position
+            const boxNote = boxNotes?.get(`${stringIndex}-${pos.fret}`);
+            const noteType = boxNote ? boxNote.displayType : noteClassifier(pos);
+            if (!boxNote && noteType === 'non-scale') return null;
+            if (boxNotes && !boxNote) return null;
 
             const x = getFretX(pos.fret);
             const y = getStringY(stringIndex);
@@ -206,7 +214,7 @@ export function Fretboard({
                 onClick={() => onNoteClick?.(pos)}
                 onKeyDown={(e) => handleKeyDown(e, stringIndex, pos.fret)}
                 role="gridcell"
-                aria-label={`${pos.noteName} on string ${6 - stringIndex}, fret ${pos.fret}`}
+                aria-label={`${boxNote?.label ?? pos.noteName} on string ${6 - stringIndex}, fret ${pos.fret}`}
                 tabIndex={isFirst ? 0 : -1}
                 data-string={stringIndex}
                 data-fret={pos.fret}
@@ -216,6 +224,7 @@ export function Fretboard({
                   y={y}
                   noteName={pos.noteName}
                   noteType={noteType}
+                  label={boxNote?.label}
                 />
               </g>
             );

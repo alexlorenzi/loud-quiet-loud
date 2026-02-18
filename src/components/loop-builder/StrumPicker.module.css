@@ -44,5 +44,5 @@
 .chip.active {
   background: var(--accent-primary);
   color: var(--accent-text);
-  border-color: var(--accent-primary);
+  border-color: var(--border-default);
 }

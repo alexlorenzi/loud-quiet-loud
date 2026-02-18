@@ -18,7 +18,7 @@
 
 .card:hover {
   background: var(--bg-hover);
-  border-color: var(--accent-primary);
+  border-color: var(--border-default);
   transform: translate(-2px, -2px);
   box-shadow: var(--shadow-lg);
 }
@@ -29,7 +29,7 @@
 }
 
 .card.selected {
-  border-color: var(--accent-primary);
+  border-color: var(--border-default);
   background: var(--accent-primary);
   color: var(--accent-text);
 }

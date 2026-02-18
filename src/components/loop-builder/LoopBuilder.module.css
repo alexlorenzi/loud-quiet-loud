@@ -83,7 +83,7 @@
 .variationChip.activeVariation {
   background: var(--accent-primary);
   color: var(--accent-text);
-  border-color: var(--accent-primary);
+  border-color: var(--border-default);
 }
 
 .slotBeats {
@@ -112,7 +112,7 @@
 .slotBeatActive {
   background: var(--accent-primary);
   color: var(--accent-text);
-  border-color: var(--accent-primary);
+  border-color: var(--border-default);
 }
 
 .settings {
@@ -136,7 +136,7 @@
   letter-spacing: 0.04em;
   color: var(--accent-text);
   background: var(--accent-primary);
-  border: var(--border-w) solid var(--accent-primary);
+  border: var(--border-w) solid var(--border-default);
   cursor: pointer;
   box-shadow: var(--shadow-sm);
   transition: transform 0.1s, box-shadow 0.1s;

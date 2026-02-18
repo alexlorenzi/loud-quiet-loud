@@ -7,6 +7,7 @@ interface NoteCircleProps {
   y: number;
   noteName: NoteName;
   noteType: NoteDisplayType;
+  label?: string;
 }
 
 const NOTE_SHAPES: Record<NoteDisplayType, 'circle' | 'diamond' | 'square' | 'triangle'> = {
@@ -17,6 +18,9 @@ const NOTE_SHAPES: Record<NoteDisplayType, 'circle' | 'diamond' | 'square' | 'tr
   '9th': 'circle',
   scale: 'circle',
   'scale-highlight': 'circle',
+  'box-root': 'circle',
+  'box-scale': 'circle',
+  'box-blue-note': 'circle',
   'non-scale': 'circle',
 };
 
@@ -28,14 +32,19 @@ const NOTE_COLORS: Record<NoteDisplayType, string> = {
   '9th': 'var(--note-chord-tone)',
   scale: 'var(--note-scale)',
   'scale-highlight': 'var(--note-scale-highlight)',
+  'box-root': 'var(--note-root)',
+  'box-scale': 'var(--text-primary)',
+  'box-blue-note': 'var(--note-blue-note)',
   'non-scale': 'var(--note-nonscale)',
 };
 
-export function NoteCircle({ x, y, noteName, noteType }: NoteCircleProps): React.JSX.Element {
+export function NoteCircle({ x, y, noteName, noteType, label }: NoteCircleProps): React.JSX.Element {
   const shape = NOTE_SHAPES[noteType];
   const color = NOTE_COLORS[noteType];
   const size = noteType === 'non-scale' ? 4 : 12;
-  const isFilled = noteType === 'root' || noteType === 'scale-highlight' || noteType === 'non-scale';
+  const isBox = noteType === 'box-root' || noteType === 'box-scale' || noteType === 'box-blue-note';
+  const isFilled = noteType === 'root' || noteType === 'scale-highlight' || noteType === 'non-scale' || isBox;
+  const displayText = label ?? noteName;
 
   if (shape === 'circle') {
     return (
@@ -58,7 +67,7 @@ export function NoteCircle({ x, y, noteName, noteType }: NoteCircleProps): React
             fontFamily="var(--font-mono)"
             fontWeight="600"
           >
-            {noteName}
+            {displayText}
           </text>
         )}
       </g>
@@ -79,7 +88,7 @@ export function NoteCircle({ x, y, noteName, noteType }: NoteCircleProps): React
           fontFamily="var(--font-mono)"
           fontWeight="600"
         >
-          {noteName}
+          {displayText}
         </text>
       </g>
     );
@@ -104,7 +113,7 @@ export function NoteCircle({ x, y, noteName, noteType }: NoteCircleProps): React
           fontFamily="var(--font-mono)"
           fontWeight="600"
         >
-          {noteName}
+          {displayText}
         </text>
       </g>
     );
@@ -124,7 +133,7 @@ export function NoteCircle({ x, y, noteName, noteType }: NoteCircleProps): React
           fontFamily="var(--font-mono)"
           fontWeight="600"
         >
-          {noteName}
+          {displayText}
         </text>
       </g>
     );
