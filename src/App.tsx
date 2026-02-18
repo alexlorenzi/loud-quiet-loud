@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppStore } from './store/app-store.js';
 import { computeScale, SCALE_FORMULAS } from './engine/music-theory.js';
 import { generateDiatonicChords } from './engine/chord-generator.js';
@@ -27,6 +27,42 @@ import { ScaleSelector } from './components/scales/ScaleSelector.js';
 import { PlaybackControls } from './components/playback/PlaybackControls.js';
 import { SidebarAccordion } from './components/shared/SidebarAccordion.js';
 
+
+type SidebarSection = 'progressions' | 'loop-builder' | 'chord-explorer';
+
+function SidebarSections(): React.JSX.Element {
+  const [activeSection, setActiveSection] = useState<SidebarSection>('progressions');
+
+  function toggle(section: SidebarSection) {
+    setActiveSection((prev) => (prev === section ? prev : section));
+  }
+
+  return (
+    <>
+      <SidebarAccordion
+        title="Progressions"
+        isOpen={activeSection === 'progressions'}
+        onToggle={() => toggle('progressions')}
+      >
+        <ProgressionPicker />
+      </SidebarAccordion>
+      <SidebarAccordion
+        title="Loop Builder"
+        isOpen={activeSection === 'loop-builder'}
+        onToggle={() => toggle('loop-builder')}
+      >
+        <LoopBuilder />
+      </SidebarAccordion>
+      <SidebarAccordion
+        title="Chord Explorer"
+        isOpen={activeSection === 'chord-explorer'}
+        onToggle={() => toggle('chord-explorer')}
+      >
+        <ChordExplorer />
+      </SidebarAccordion>
+    </>
+  );
+}
 
 function App(): React.JSX.Element {
   const {
@@ -192,17 +228,7 @@ function App(): React.JSX.Element {
       <AppShell
         header={<Header keySelector={<KeySelector />} keyInfo={<KeyInfo />} />}
         sidebar={
-          <>
-            <SidebarAccordion title="Progressions" defaultOpen>
-              <ProgressionPicker />
-            </SidebarAccordion>
-            <SidebarAccordion title="Loop Builder" defaultOpen={false}>
-              <LoopBuilder />
-            </SidebarAccordion>
-            <SidebarAccordion title="Chord Explorer" defaultOpen={false}>
-              <ChordExplorer />
-            </SidebarAccordion>
-          </>
+          <SidebarSections />
         }
         progressionBar={<ProgressionChordBar />}
         fretboard={

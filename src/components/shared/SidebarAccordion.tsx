@@ -1,26 +1,27 @@
 import type React from 'react';
-import { type ReactNode, useState, useId } from 'react';
+import { type ReactNode, useId } from 'react';
 import styles from './SidebarAccordion.module.css';
 
 interface SidebarAccordionProps {
   title: string;
-  defaultOpen?: boolean;
+  isOpen: boolean;
+  onToggle: () => void;
   children: ReactNode;
 }
 
 export function SidebarAccordion({
   title,
-  defaultOpen = true,
+  isOpen,
+  onToggle,
   children,
 }: SidebarAccordionProps): React.JSX.Element {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentId = useId();
 
   return (
-    <div className={styles.accordion}>
+    <div className={`${styles.accordion} ${isOpen ? styles.accordionOpen : ''}`}>
       <button
         className={styles.trigger}
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={onToggle}
         aria-expanded={isOpen}
         aria-controls={contentId}
       >
@@ -30,7 +31,7 @@ export function SidebarAccordion({
 
       <div
         id={contentId}
-        className={`${styles.body} ${isOpen ? '' : styles.bodyCollapsed}`}
+        className={`${styles.body} ${isOpen ? styles.bodyExpanded : ''}`}
         role="region"
         aria-labelledby={undefined}
       >

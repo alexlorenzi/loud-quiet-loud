@@ -23,7 +23,9 @@
 .sidebar {
   grid-column: 1;
   grid-row: 1;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border-right: var(--border-w) solid var(--border-default);
   background: var(--bg-surface);
 }
