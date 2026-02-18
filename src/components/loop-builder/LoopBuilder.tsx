@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef, type RefObject } from 'react';
 import { useAppStore } from '../../store/app-store.js';
 import { generateDiatonicChords, getChordVariations } from '../../engine/chord-generator.js';
 import { computeScale } from '../../engine/music-theory.js';
@@ -120,6 +120,15 @@ export function LoopBuilder(): React.JSX.Element {
     }));
   }, [selectedSlotIndex, diatonicChords]);
 
+  const handleSetSlotBeats = useCallback((beats: number) => {
+    if (selectedSlotIndex === null) return;
+    setDraftChords(prev => prev.map((chord, i) => {
+      if (i !== selectedSlotIndex) return chord;
+      // Clear override when value matches global default so the chord follows future changes
+      return { ...chord, beats: beats === beatsPerChord ? undefined : beats };
+    }));
+  }, [selectedSlotIndex, beatsPerChord]);
+
   const handlePlay = useCallback(() => {
     if (draftChords.length === 0) return;
     pendingPlayRef.current = true;
@@ -134,6 +143,24 @@ export function LoopBuilder(): React.JSX.Element {
 
   const isPlaying = playbackState === 'playing' || playbackState === 'paused';
   const isLoopActive = activeLoop !== null;
+
+  const dropdownRef: RefObject<HTMLDivElement | null> = useRef(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    if (selectedSlotIndex === null) return;
+    function handleClickOutside(e: MouseEvent) {
+      const dropdown = dropdownRef.current;
+      if (!dropdown) return;
+      // Check if click is inside the dropdown or inside a slot
+      const target = e.target as HTMLElement;
+      if (dropdown.contains(target)) return;
+      if (target.closest('[data-loop-slot]')) return;
+      setSelectedSlotIndex(null);
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [selectedSlotIndex]);
 
   return (
     <div className={styles.builder}>
@@ -155,6 +182,7 @@ export function LoopBuilder(): React.JSX.Element {
               key={chord.slotId}
               romanNumeral={chord.romanNumeral}
               displayName={getDisplayName(chord)}
+              beats={chord.beats ?? beatsPerChord}
               isActive={isLoopActive && isPlaying && index === currentChordIndex}
               isSelected={selectedSlotIndex === index}
               onSelect={() => handleSelectSlot(index)}
@@ -164,22 +192,45 @@ export function LoopBuilder(): React.JSX.Element {
         )}
       </div>
 
-      {selectedVariations.length > 0 && selectedSlotIndex !== null && (
-        <div className={styles.variations}>
-          {selectedVariations.map(variation => {
-            const currentChord = draftChords[selectedSlotIndex];
-            const currentQuality = currentChord?.quality ?? diatonicChords.find(c => c.degree === currentChord?.degree)?.quality;
-            const isActive = variation.quality === currentQuality;
-            return (
-              <button
-                key={variation.quality}
-                className={`${styles.variationChip} ${isActive ? styles.activeVariation : ''}`}
-                onClick={() => handleSetQuality(variation.quality, variation.romanNumeral)}
-              >
-                {variation.displayName}
-              </button>
-            );
-          })}
+      {selectedSlotIndex !== null && selectedSlotIndex < draftChords.length && (
+        <div ref={dropdownRef} className={styles.slotDropdown}>
+          <div className={styles.dropdownSection}>
+            <span className={styles.dropdownLabel}>Variation</span>
+            <div className={styles.variations}>
+              {selectedVariations.map(variation => {
+                const currentChord = draftChords[selectedSlotIndex];
+                const currentQuality = currentChord?.quality ?? diatonicChords.find(c => c.degree === currentChord?.degree)?.quality;
+                const isActive = variation.quality === currentQuality;
+                return (
+                  <button
+                    key={variation.quality}
+                    className={`${styles.variationChip} ${isActive ? styles.activeVariation : ''}`}
+                    onClick={() => handleSetQuality(variation.quality, variation.romanNumeral)}
+                  >
+                    {variation.displayName}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className={styles.dropdownSection}>
+            <span className={styles.dropdownLabel}>Beats</span>
+            <div className={styles.slotBeats}>
+              {[1, 2, 4].map(b => {
+                const effectiveBeats = draftChords[selectedSlotIndex].beats ?? beatsPerChord;
+                return (
+                  <button
+                    key={b}
+                    className={`${styles.slotBeatOption} ${effectiveBeats === b ? styles.slotBeatActive : ''}`}
+                    onClick={() => handleSetSlotBeats(b)}
+                  >
+                    {b}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       )}
 

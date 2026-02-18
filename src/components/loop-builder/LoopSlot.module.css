@@ -43,6 +43,18 @@
   white-space: nowrap;
 }
 
+.beatsBadge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  padding: 0 4px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
 .remove {
   margin-left: auto;
   padding: 0 var(--space-1);

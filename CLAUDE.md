@@ -25,6 +25,7 @@ npx vitest run src/__tests__/engine/music-theory.test.ts  # Run a single test fi
 - Use **Conventional Commits** for all commit messages: `type(scope): description`
   - Types: `feat`, `fix`, `style`, `refactor`, `docs`, `test`, `chore`, `perf`, `ci`, `build`
   - Example: `style(ui): restyle to brutalist aesthetic`
+- **Commit signing**: This repo uses SSH commit signing via 1Password. The `git` binary is excluded from the sandbox, but shell-level heredocs (`cat <<'EOF'`) fail because the shell is still sandboxed. Always pass commit messages with `-m` flags, not heredocs.
 
 ## Architecture
 

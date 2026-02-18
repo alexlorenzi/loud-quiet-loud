@@ -4,6 +4,8 @@ export interface ProgressionChord {
   degree: number;
   quality?: ChordQuality;
   romanNumeral: string;
+  /** Per-chord beat override. When absent, the global beatsPerChord default is used. */
+  beats?: number;
 }
 
 export interface PresetProgression {

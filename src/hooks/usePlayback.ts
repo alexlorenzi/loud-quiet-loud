@@ -63,7 +63,7 @@ function buildScheduledProgression(
 
     scheduledChords.push({
       voicing,
-      durationBeats: resolved.beatsPerChord,
+      durationBeats: patternChord.beats ?? resolved.beatsPerChord,
     });
   }
 
