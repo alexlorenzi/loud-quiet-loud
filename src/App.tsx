@@ -71,7 +71,8 @@ function App(): React.JSX.Element {
     mode,
     selectedProgressionId,
     activeLoop,
-    selectedScaleShapeId,
+    selectedScaleType,
+    selectedPosition,
     scaleShapeVisible,
     currentChordIndex,
     playbackState,
@@ -133,8 +134,10 @@ function App(): React.JSX.Element {
 
   // Resolve the active scale shape (if any) and compute box position notes.
   const activeShape = useMemo(
-    () => scaleShapeVisible ? (SCALE_SHAPE_POSITIONS.find((s) => s.id === selectedScaleShapeId) ?? null) : null,
-    [scaleShapeVisible, selectedScaleShapeId],
+    () => scaleShapeVisible && selectedScaleType
+      ? (SCALE_SHAPE_POSITIONS.find((s) => s.scaleType === selectedScaleType && s.position === selectedPosition) ?? null)
+      : null,
+    [scaleShapeVisible, selectedScaleType, selectedPosition],
   );
 
   const activeBoxNotes = useMemo(

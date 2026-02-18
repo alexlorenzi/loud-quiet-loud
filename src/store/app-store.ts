@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { NoteName, Mode } from '../types/music.js';
+import type { NoteName, Mode, ScaleType } from '../types/music.js';
 import type { PlaybackState } from '../types/audio.js';
 import type { MobileTab, Announcement } from '../types/ui.js';
 import type { CustomLoop } from '../types/loop.js';
@@ -20,11 +20,11 @@ interface AppState {
   clearLoop: () => void;
 
   // Scale shape visualization
-  selectedScaleShapeId: string;
+  selectedScaleType: ScaleType | null;
+  selectedPosition: number;
   scaleShapeVisible: boolean;
-  setScaleShape: (id: string) => void;
-  toggleScaleShapeOverlay: () => void;
-  selectOrDeselectShape: (id: string) => void;
+  selectOrDeselectScale: (type: ScaleType) => void;
+  setPosition: (pos: number) => void;
 
   // Playback state
   playbackState: PlaybackState;
@@ -98,18 +98,18 @@ export const useAppStore = create<AppState>((set) => ({
   clearLoop: () =>
     set({ activeLoop: null, playbackState: 'stopped', currentChordIndex: 0, currentEighthInBar: 0 }),
 
-  // Default scale shape: Minor Pentatonic Box 1
-  selectedScaleShapeId: 'pentatonic-minor-box1',
+  // Scale shape visualization
+  selectedScaleType: null,
+  selectedPosition: 1,
   scaleShapeVisible: false,
-  setScaleShape: (id) => set({ selectedScaleShapeId: id }),
-  toggleScaleShapeOverlay: () => set((state) => ({ scaleShapeVisible: !state.scaleShapeVisible })),
-  selectOrDeselectShape: (id) =>
+  selectOrDeselectScale: (type) =>
     set((state) => {
-      if (state.selectedScaleShapeId === id && state.scaleShapeVisible) {
+      if (state.selectedScaleType === type && state.scaleShapeVisible) {
         return { scaleShapeVisible: false };
       }
-      return { selectedScaleShapeId: id, scaleShapeVisible: true };
+      return { selectedScaleType: type, scaleShapeVisible: true };
     }),
+  setPosition: (pos) => set({ selectedPosition: pos }),
 
   // Playback defaults
   playbackState: 'stopped',

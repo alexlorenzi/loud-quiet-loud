@@ -94,6 +94,7 @@ export interface ScaleShapePosition {
   id: string;
   name: string;
   scaleType: ScaleType;
+  position: number;
   description: string;
   usage: string;
   pattern: Array<{

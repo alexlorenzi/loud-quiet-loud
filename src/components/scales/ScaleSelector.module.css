@@ -23,42 +23,63 @@
   flex: 1;
 }
 
-.shape {
+.shapeGroup {
   position: relative;
+  display: flex;
+  align-items: stretch;
+  border: var(--border-w) solid var(--border-default);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.shapeGroup:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-md);
+}
+
+.shapeGroup:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+.activeGroup {
+  border-color: #000;
+  transform: none;
+}
+
+.activeGroup:hover {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.activeGroup:active {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.shape {
   padding: var(--space-2) var(--space-3);
   background: var(--bg-elevated);
-  border: var(--border-w) solid var(--border-default);
+  border: none;
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 600;
   color: var(--text-tertiary);
   cursor: pointer;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.1s, box-shadow 0.1s, border-color 0.1s, color 0.1s, background 0.1s;
 }
 
-.shape:hover {
+.shapeGroup:hover .shape {
   color: var(--text-primary);
-  border-color: var(--border-default);
   background: var(--bg-hover);
-  transform: translate(-2px, -2px);
-  box-shadow: var(--shadow-md);
-}
-
-.shape:active {
-  transform: translate(4px, 4px);
-  box-shadow: none;
 }
 
 .shape.active {
   color: var(--accent-text);
   background: var(--accent-primary);
-  border-color: var(--border-default);
 }
 
-.shape.active:hover {
+.shapeGroup:hover .shape.active {
   background: var(--accent-hover);
-  border-color: var(--border-default);
 }
 
 .shapeName {
@@ -66,6 +87,57 @@
   z-index: 1;
 }
 
-.indicator {
-  display: none;
+.positionButton {
+  padding: var(--space-2) var(--space-3);
+  background: var(--accent-primary);
+  border: none;
+  border-left: var(--border-w) solid #000;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-text);
+  cursor: pointer;
+}
+
+.positionButton:hover {
+  background-color: var(--accent-hover);
+}
+
+.dropdown {
+  position: absolute;
+  bottom: calc(100% + var(--space-1));
+  right: 0;
+  background: var(--bg-elevated);
+  border: var(--border-w) solid var(--text-primary);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  min-width: 80px;
+  padding: var(--space-1) 0;
+}
+
+.dropdownOption {
+  display: block;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.dropdownOption:hover {
+  background: var(--bg-hover);
+}
+
+.dropdownSelected {
+  background: var(--accent-primary);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+.dropdownSelected:hover {
+  background: var(--accent-hover);
 }

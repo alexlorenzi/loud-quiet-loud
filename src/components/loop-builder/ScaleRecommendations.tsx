@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useAppStore } from '../../store/app-store.js';
-import { SCALE_SHAPE_POSITIONS } from '../../constants/scales.js';
+import type { ScaleType } from '../../types/music.js';
 import type { ScaleRecommendation } from '../../engine/scale-recommender.js';
 import styles from './ScaleRecommendations.module.css';
 
@@ -8,13 +8,12 @@ interface ScaleRecommendationsProps {
   recommendations: ScaleRecommendation[];
 }
 
-function findShapeId(scaleType: string): string | null {
-  const shape = SCALE_SHAPE_POSITIONS.find(s => s.scaleType === scaleType);
-  return shape?.id ?? null;
-}
+const SUPPORTED_SCALE_TYPES = new Set<string>([
+  'pentatonic-minor', 'pentatonic-major', 'blues', 'major',
+]);
 
 export function ScaleRecommendations({ recommendations }: ScaleRecommendationsProps): React.JSX.Element | null {
-  const { selectOrDeselectShape } = useAppStore();
+  const { selectOrDeselectScale } = useAppStore();
 
   if (recommendations.length === 0) return null;
 
@@ -23,7 +22,7 @@ export function ScaleRecommendations({ recommendations }: ScaleRecommendationsPr
       <span className={styles.label}>Recommended scales:</span>
       <div className={styles.list}>
         {recommendations.map(rec => {
-          const shapeId = findShapeId(rec.scaleType);
+          const hasShape = SUPPORTED_SCALE_TYPES.has(rec.scaleType);
           return (
             <div key={rec.scaleType} className={styles.item}>
               <div className={styles.header}>
@@ -41,10 +40,10 @@ export function ScaleRecommendations({ recommendations }: ScaleRecommendationsPr
                   ))}
                 </div>
               )}
-              {shapeId && (
+              {hasShape && (
                 <button
                   className={styles.applyBtn}
-                  onClick={() => selectOrDeselectShape(shapeId)}
+                  onClick={() => selectOrDeselectScale(rec.scaleType as ScaleType)}
                 >
                   Show on fretboard
                 </button>

@@ -41,7 +41,9 @@ export function usePresets(): UsePresetsResult {
         keyRoot: state.keyRoot,
         mode: state.mode,
         progressionId: state.selectedProgressionId ?? '',
-        scaleShapeId: state.selectedScaleShapeId,
+        scaleShapeId: '',
+        scaleType: state.selectedScaleType ?? '',
+        scalePosition: state.selectedPosition,
         tempo: state.tempo,
       });
 
@@ -64,7 +66,12 @@ export function usePresets(): UsePresetsResult {
       preset.mode as Parameters<typeof store.setKey>[1],
     );
     store.setProgression(preset.progressionId || null);
-    store.setScaleShape(preset.scaleShapeId);
+    if (preset.scaleType) {
+      store.selectOrDeselectScale(preset.scaleType as Parameters<typeof store.selectOrDeselectScale>[0]);
+    }
+    if (preset.scalePosition) {
+      store.setPosition(preset.scalePosition);
+    }
     store.setTempo(preset.tempo);
   }, []);
 

@@ -11,7 +11,9 @@ export interface StoredPreset {
   keyRoot: string;         // NoteName
   mode: string;            // Mode
   progressionId: string;
-  scaleShapeId: string;
+  scaleShapeId: string;    // legacy, kept for backward compat
+  scaleType?: string;      // ScaleType or empty
+  scalePosition?: number;  // 1-5
   tempo: number;
 }
 
